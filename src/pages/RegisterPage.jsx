@@ -25,7 +25,17 @@ const RegisterPage = () => {
       console.log(response.data);
       // Redirect to login or chats page
     } catch (error) {
-      console.error('Registration error:', error);
+      if (error.response && error.response.data) {
+        if (process.env.NODE_ENV !== 'test') {
+          console.error('Registration error:', error.response.data);
+        }
+      } else if (error.message) {
+        if (process.env.NODE_ENV !== 'test') {
+          console.error('Registration error:', error.message);
+        }
+      } else {
+        console.error('Registration error:', 'An unknown error occurred.');
+      }
     }
   };
 
