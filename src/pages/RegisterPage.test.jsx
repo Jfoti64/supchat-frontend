@@ -2,6 +2,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import RegisterPage from './RegisterPage';
+import { MemoryRouter } from 'react-router-dom';
 import { registerUser } from '../api/api';
 
 // Mock the registerUser function
@@ -9,7 +10,11 @@ jest.mock('../api/api');
 
 describe('RegisterPage', () => {
   it('renders the registration form', () => {
-    render(<RegisterPage />);
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    );
 
     // Check if form elements are rendered
     expect(screen.getByPlaceholderText('First Name')).toBeInTheDocument();
@@ -20,7 +25,11 @@ describe('RegisterPage', () => {
   });
 
   it('submits the form correctly', async () => {
-    render(<RegisterPage />);
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    );
 
     fireEvent.change(screen.getByPlaceholderText('First Name'), { target: { value: 'John' } });
     fireEvent.change(screen.getByPlaceholderText('Family Name'), { target: { value: 'Doe' } });
@@ -40,7 +49,11 @@ describe('RegisterPage', () => {
   it('handles registration errors', async () => {
     registerUser.mockRejectedValueOnce(new Error('Network Error'));
 
-    render(<RegisterPage />);
+    render(
+      <MemoryRouter>
+        <RegisterPage />
+      </MemoryRouter>
+    );
 
     fireEvent.change(screen.getByPlaceholderText('First Name'), { target: { value: 'John' } });
     fireEvent.change(screen.getByPlaceholderText('Family Name'), { target: { value: 'Doe' } });

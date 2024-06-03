@@ -1,17 +1,15 @@
-// src/pages/RegisterPage.jsx
+// src/pages/LoginPage.jsx
 import React, { useState } from 'react';
-import { registerUser } from '../api/api';
 import { useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/api';
 import Button from '../components/Button';
 
-const RegisterPage = () => {
+const LoginPage = () => {
   const [formData, setFormData] = useState({
-    first_name: '',
-    family_name: '',
     username: '',
     password: '',
   });
-
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -24,39 +22,30 @@ const RegisterPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await registerUser(formData);
+      const response = await loginUser(formData);
       console.log(response.data);
       // Redirect to chats page
-      navigate('/login');
+      navigate('/chats');
     } catch (error) {
       if (error.response && error.response.data) {
         if (process.env.NODE_ENV !== 'test') {
-          console.error('Registration error:', error.response.data);
+          console.error('Login error:', error.response.data);
+          setError(error.response.data.message);
         }
       } else if (error.message) {
         if (process.env.NODE_ENV !== 'test') {
-          console.error('Registration error:', error.message);
+          console.error('Login error:', error.message);
+          setError(error.message);
         }
       } else {
-        console.error('Registration error:', 'An unknown error occurred.');
+        console.error('Login error:', 'An unknown error occurred.');
+        setError('An unknown error occurred.');
       }
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        name="first_name"
-        value={formData.first_name}
-        onChange={handleChange}
-        placeholder="First Name"
-      />
-      <input
-        name="family_name"
-        value={formData.family_name}
-        onChange={handleChange}
-        placeholder="Family Name"
-      />
       <input
         name="username"
         value={formData.username}
@@ -71,10 +60,11 @@ const RegisterPage = () => {
         placeholder="Password"
       />
       <Button $primary type="submit">
-        Register
+        Login
       </Button>
+      {error && <p>{error}</p>}
     </form>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;
