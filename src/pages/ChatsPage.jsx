@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 import { getMessages, sendMessage, getUserConversations } from '../api/api';
 import ConversationsList from '../components/ConversationsList';
 import Conversation from '../components/Conversation';
@@ -11,6 +12,10 @@ const ChatsPage = () => {
   const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const token = localStorage.getItem('token');
+
+  // Decode the token to get the user ID
+  const decodedToken = token ? jwtDecode(token) : null;
+  const userId = decodedToken ? decodedToken.userId : null;
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -55,7 +60,21 @@ const ChatsPage = () => {
     try {
       const trimmedMessage = messageToSend.trim();
       if (trimmedMessage) {
-        await sendMessage({ text: trimmedMessage }, token);
+        const selectedConversation = conversations.find(
+          (conversation) => conversation._id === selectedConversationId
+        );
+        const receiverId = selectedConversation.participants.find(
+          (participant) => participant !== userId
+        );
+
+        const messageData = {
+          senderId: userId,
+          receiverId: receiverId,
+          content: trimmedMessage,
+        };
+
+        const response = await sendMessage(messageData, token);
+        console.log('Message sent:', response.data);
         setStatusMessage('Message sent successfully!');
         setMessageToSend('');
         // Refetch messages to update the conversation
