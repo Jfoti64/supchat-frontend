@@ -27,7 +27,7 @@ const ConversationsList = ({ onSelectConversation, conversations, loading }) => 
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ddd')}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#f1f1f1')}
             >
-              {conversation.participants.join(', ')}
+              {conversation.participants.map((participant) => participant.username).join(', ')}
             </li>
           ))
         ) : (
