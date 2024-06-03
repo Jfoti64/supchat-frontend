@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { getMessages, sendMessage, getUserConversations } from '../api/api';
 import ConversationsList from '../components/ConversationsList';
@@ -12,12 +13,20 @@ const ChatsPage = () => {
   const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
-  // Decode the token to get the user ID
+  // Decode the token to get the user ID and check expiration
   const decodedToken = token ? jwtDecode(token) : null;
   const userId = decodedToken ? decodedToken.userId : null;
+  const isTokenExpired = decodedToken ? decodedToken.exp * 1000 < Date.now() : true;
 
   useEffect(() => {
+    if (isTokenExpired) {
+      localStorage.removeItem('token');
+      navigate('/login');
+      return;
+    }
+
     const fetchConversations = async () => {
       if (!token) {
         console.error('No token found');
@@ -29,14 +38,19 @@ const ChatsPage = () => {
         const response = await getUserConversations(token);
         setConversations(response.data);
       } catch (error) {
-        console.error('Error fetching conversations:', error);
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          console.error('Error fetching conversations:', error);
+        }
       } finally {
         setLoadingConversations(false);
       }
     };
 
     fetchConversations();
-  }, [token]);
+  }, [token, navigate, isTokenExpired]);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -48,12 +62,17 @@ const ChatsPage = () => {
         const messages = await getMessages(selectedConversationId, token);
         setMessagesInConversation(messages.data);
       } catch (error) {
-        console.error('Error fetching messages:', error);
+        if (error.response && error.response.status === 401) {
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          console.error('Error fetching messages:', error);
+        }
       }
     };
 
     fetchMessages();
-  }, [selectedConversationId, token]);
+  }, [selectedConversationId, token, navigate]);
 
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
@@ -82,8 +101,13 @@ const ChatsPage = () => {
         setMessagesInConversation(messages.data);
       }
     } catch (error) {
-      console.error('Message failed', error);
-      setStatusMessage('Message failed. Please try again.');
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem('token');
+        navigate('/login');
+      } else {
+        console.error('Message failed', error);
+        setStatusMessage('Message failed. Please try again.');
+      }
     }
   };
 
