@@ -5,42 +5,21 @@ import { loginUser } from '../api/api';
 import Button from '../components/Button';
 
 const LoginPage = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    password: '',
-  });
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-      console.log(response.data);
-      // Redirect to chats page
-      navigate('/chats');
+      localStorage.setItem('token', response.data.token); // Save token to local storage
+      navigate('/chats'); // Redirect to chats page or wherever appropriate
     } catch (error) {
-      if (error.response && error.response.data) {
-        if (process.env.NODE_ENV !== 'test') {
-          console.error('Login error:', error.response.data);
-          setError(error.response.data.message);
-        }
-      } else if (error.message) {
-        if (process.env.NODE_ENV !== 'test') {
-          console.error('Login error:', error.message);
-          setError(error.message);
-        }
-      } else {
-        console.error('Login error:', 'An unknown error occurred.');
-        setError('An unknown error occurred.');
-      }
+      console.error('Login error:', error);
     }
   };
 
@@ -62,7 +41,6 @@ const LoginPage = () => {
       <Button $primary type="submit">
         Login
       </Button>
-      {error && <p>{error}</p>}
     </form>
   );
 };
