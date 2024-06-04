@@ -1,6 +1,6 @@
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
-
 import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -43,5 +43,16 @@ export const updateUser = (userData, token) =>
   api.put(`/users/${userData.id}`, userData, {
     headers: { Authorization: `Bearer ${token}` },
   });
+export const uploadProfilePicture = (userId, formData, token) => {
+  return api.post(`/users/${userId}/uploadProfilePicture`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+export const getProfilePictureUrl = (filename) => {
+  return `${import.meta.env.VITE_API_BASE_URL}/uploads/profile_pictures/${filename}`;
+};
 
 export default api;
