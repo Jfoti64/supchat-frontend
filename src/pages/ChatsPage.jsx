@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import { getMessages, sendMessage, getUserConversations } from '../api/api';
+import {
+  getMessages,
+  sendMessage,
+  getUserConversations,
+  getUserByUsername,
+  createConversation,
+} from '../api/api';
 import ConversationsList from '../components/ConversationsList';
 import Conversation from '../components/Conversation';
+import NewChatForm from '../components/NewChatForm';
 
 const ChatsPage = () => {
   const [messageToSend, setMessageToSend] = useState('');
@@ -12,6 +19,7 @@ const ChatsPage = () => {
   const [selectedConversationId, setSelectedConversationId] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [loadingConversations, setLoadingConversations] = useState(true);
+  const [displayNewChatForm, setDisplayNewChatForm] = useState(false);
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
@@ -111,12 +119,40 @@ const ChatsPage = () => {
     }
   };
 
+  const handleNewChatClick = () => {
+    setDisplayNewChatForm(!displayNewChatForm);
+  };
+
+  const handleCreateNewChat = async (receiverUsername) => {
+    try {
+      const userResponse = await getUserByUsername(receiverUsername, token);
+      const participantId = userResponse.data._id;
+
+      const conversationData = {
+        userId: userId,
+        participantId: participantId,
+      };
+
+      const response = await createConversation(conversationData, token);
+      setConversations([...conversations, response.data]);
+      setSelectedConversationId(response.data._id);
+      setDisplayNewChatForm(false);
+    } catch (error) {
+      console.error('Error creating new chat:', error);
+    }
+  };
+
   return (
     <div>
       <ConversationsList
         onSelectConversation={setSelectedConversationId}
         conversations={conversations}
         loading={loadingConversations}
+        handleNewChatClick={handleNewChatClick}
+      />
+      <NewChatForm
+        displayNewChatForm={displayNewChatForm}
+        handleCreateNewChat={handleCreateNewChat}
       />
       {selectedConversationId ? (
         <Conversation
