@@ -35,5 +35,13 @@ export const getUserByUsername = (username, token) =>
   api.get(`/users/username/${username}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+export const getUser = (id, token) =>
+  api.get(`/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+export const updateUser = (userData, token) =>
+  api.put(`/users/${userData.id}`, userData, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
 export default api;
