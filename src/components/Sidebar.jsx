@@ -1,5 +1,10 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import ChatsIcon from '../assets/icons/chats.svg';
+import ProfileIcon from '../assets/icons/profile.svg';
+import LogoutIcon from '../assets/icons/logout.svg';
+import LoginIcon from '../assets/icons/login.svg';
+import RegisterIcon from '../assets/icons/register.svg';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -18,24 +23,37 @@ const Sidebar = () => {
           {token ? (
             <>
               <li style={navItemStyles}>
-                <Link to="/chats">Chats</Link>
+                <Link to="/chats">
+                  <img src={ChatsIcon} alt="Chats" style={iconStyles} />
+                  <span style={linkTextStyles}>Chats</span>
+                </Link>
               </li>
               <li style={navItemStyles}>
-                <Link to="/profile">Profile</Link>
+                <Link to="/profile">
+                  <img src={ProfileIcon} alt="Profile" style={iconStyles} />
+                  <span style={linkTextStyles}>Profile</span>
+                </Link>
               </li>
               <li style={navItemStyles}>
                 <button onClick={handleLogout} style={logoutButtonStyles}>
-                  Logout
+                  <img src={LogoutIcon} alt="Logout" style={iconStyles} />
+                  <span style={linkTextStyles}>Logout</span>
                 </button>
               </li>
             </>
           ) : (
             <>
               <li style={navItemStyles}>
-                <Link to="/login">Login</Link>
+                <Link to="/login">
+                  <img src={LoginIcon} alt="Login" style={iconStyles} />
+                  <span style={linkTextStyles}>Login</span>
+                </Link>
               </li>
               <li style={navItemStyles}>
-                <Link to="/register">Register</Link>
+                <Link to="/register">
+                  <img src={RegisterIcon} alt="Register" style={iconStyles} />
+                  <span style={linkTextStyles}>Register</span>
+                </Link>
               </li>
             </>
           )}
@@ -45,6 +63,7 @@ const Sidebar = () => {
   );
 };
 
+// Styles
 const sidebarStyles = {
   width: '250px',
   height: '100vh',
@@ -62,6 +81,17 @@ const navListStyles = {
 
 const navItemStyles = {
   marginBottom: '20px',
+  display: 'flex',
+  alignItems: 'center',
+};
+
+const linkTextStyles = {
+  marginLeft: '10px',
+};
+
+const iconStyles = {
+  width: '24px',
+  height: '24px',
 };
 
 const logoutButtonStyles = {
@@ -72,6 +102,8 @@ const logoutButtonStyles = {
   padding: 0,
   fontSize: 'inherit',
   textDecoration: 'underline',
+  display: 'flex',
+  alignItems: 'center',
 };
 
 export default Sidebar;

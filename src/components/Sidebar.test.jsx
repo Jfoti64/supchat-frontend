@@ -1,21 +1,19 @@
-// src/components/Sidebar.test.jsx
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
+const mockedNavigate = jest.fn();
+
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useNavigate: jest.fn(),
+  useNavigate: () => mockedNavigate,
 }));
 
 describe('Sidebar', () => {
-  const mockedNavigate = jest.fn();
-
   beforeEach(() => {
     jest.clearAllMocks();
     localStorage.clear();
-    require('react-router-dom').useNavigate.mockReturnValue(mockedNavigate);
   });
 
   test('renders login and register links when not authenticated', () => {
@@ -53,8 +51,8 @@ describe('Sidebar', () => {
 
     render(
       <MemoryRouter initialEntries={['/']}>
-        <Sidebar />
         <Routes>
+          <Route path="/" element={<Sidebar />} />
           <Route path="/chats" element={<div>Chats Page</div>} />
         </Routes>
       </MemoryRouter>
@@ -69,8 +67,8 @@ describe('Sidebar', () => {
 
     render(
       <MemoryRouter initialEntries={['/']}>
-        <Sidebar />
         <Routes>
+          <Route path="/" element={<Sidebar />} />
           <Route path="/profile" element={<div>Profile Page</div>} />
         </Routes>
       </MemoryRouter>
