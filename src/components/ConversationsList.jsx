@@ -7,6 +7,7 @@ const ConversationsList = ({
   conversations,
   loading,
   handleNewChatClick,
+  handleDeleteConversation,
 }) => {
   if (loading) {
     return <div>Loading...</div>;
@@ -25,6 +26,7 @@ const ConversationsList = ({
               key={conversation._id}
               conversation={conversation}
               onSelectConversation={onSelectConversation}
+              handleDeleteConversation={handleDeleteConversation}
             />
           ))
         ) : (

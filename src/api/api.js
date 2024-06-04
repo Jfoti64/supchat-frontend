@@ -27,6 +27,10 @@ export const createConversation = (conversationData, token) =>
   api.post('/messages/user/conversations', conversationData, {
     headers: { Authorization: `Bearer ${token}` },
   });
+export const deleteConversation = (conversationId, token) =>
+  api.delete(`/messages/${conversationId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 export const getUserByUsername = (username, token) =>
   api.get(`/users/username/${username}`, {
     headers: { Authorization: `Bearer ${token}` },

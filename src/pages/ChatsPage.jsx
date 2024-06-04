@@ -1,3 +1,4 @@
+// ChatsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -7,6 +8,7 @@ import {
   getUserConversations,
   getUserByUsername,
   createConversation,
+  deleteConversation,
 } from '../api/api';
 import ConversationsList from '../components/ConversationsList';
 import Conversation from '../components/Conversation';
@@ -142,6 +144,20 @@ const ChatsPage = () => {
     }
   };
 
+  const handleDeleteConversation = async (conversationId) => {
+    try {
+      await deleteConversation(conversationId, token);
+      // Update the conversations list after deletion
+      setConversations(conversations.filter((convo) => convo._id !== conversationId));
+      setSelectedConversationId(null);
+      setMessagesInConversation([]);
+      setStatusMessage('Conversation deleted successfully.');
+    } catch (error) {
+      console.error('Error deleting conversation:', error);
+      setStatusMessage('Error deleting conversation. Please try again.');
+    }
+  };
+
   return (
     <div>
       <ConversationsList
@@ -149,6 +165,7 @@ const ChatsPage = () => {
         conversations={conversations}
         loading={loadingConversations}
         handleNewChatClick={handleNewChatClick}
+        handleDeleteConversation={handleDeleteConversation}
       />
       <NewChatForm
         displayNewChatForm={displayNewChatForm}

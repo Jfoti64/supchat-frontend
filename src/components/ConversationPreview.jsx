@@ -1,13 +1,8 @@
-// src/components/ConversationPreview.jsx
 import React from 'react';
 
-const ConversationPreview = ({ conversation, onSelectConversation }) => {
-  const participants = conversation.participants.map(participant => participant.username).join(', ');
-  const lastMessage = conversation.lastMessage ? conversation.lastMessage.content : 'No messages yet';
-
+const ConversationPreview = ({ conversation, onSelectConversation, handleDeleteConversation }) => {
   return (
     <li
-      onClick={() => onSelectConversation(conversation._id)}
       style={{
         cursor: 'pointer',
         padding: '10px',
@@ -17,16 +12,23 @@ const ConversationPreview = ({ conversation, onSelectConversation }) => {
         border: '1px solid #ccc',
         transition: 'background-color 0.3s',
         boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
       }}
       onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#ddd')}
       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#f1f1f1')}
+      onClick={() => onSelectConversation(conversation._id)} // Ensure onClick is on the <li> element
     >
-      <div>
-        <strong>{participants}</strong>
-      </div>
-      <div>
-        {lastMessage}
-      </div>
+      <div>{conversation.participants.map((participant) => participant.username).join(', ')}</div>
+      <button
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent the click from propagating to the <li> element
+          handleDeleteConversation(conversation._id);
+        }}
+      >
+        Delete
+      </button>
     </li>
   );
 };
