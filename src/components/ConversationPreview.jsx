@@ -20,7 +20,10 @@ const ConversationPreview = ({ conversation, onSelectConversation, handleDeleteC
       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#f1f1f1')}
       onClick={() => onSelectConversation(conversation._id)} // Ensure onClick is on the <li> element
     >
-      <div>{conversation.participants.map((participant) => participant.username).join(', ')}</div>
+      <div>
+        <div>{conversation.participants.map((participant) => participant.username).join(', ')}</div>
+        <div>{conversation.lastMessage ? conversation.lastMessage.content : ''}</div>
+      </div>
       <button
         onClick={(e) => {
           e.stopPropagation(); // Prevent the click from propagating to the <li> element

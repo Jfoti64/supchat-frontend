@@ -11,6 +11,7 @@ const mockConversation = {
 
 describe('ConversationPreview', () => {
   const onSelectConversation = jest.fn();
+  const handleDeleteConversation = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -21,6 +22,7 @@ describe('ConversationPreview', () => {
       <ConversationPreview
         conversation={mockConversation}
         onSelectConversation={onSelectConversation}
+        handleDeleteConversation={handleDeleteConversation}
       />
     );
 
@@ -36,6 +38,7 @@ describe('ConversationPreview', () => {
       <ConversationPreview
         conversation={mockConversation}
         onSelectConversation={onSelectConversation}
+        handleDeleteConversation={handleDeleteConversation}
       />
     );
 
@@ -44,5 +47,37 @@ describe('ConversationPreview', () => {
 
     // Check if onSelectConversation is called with the correct conversation ID
     expect(onSelectConversation).toHaveBeenCalledWith('1');
+  });
+
+  test('calls handleDeleteConversation when delete button is clicked', () => {
+    render(
+      <ConversationPreview
+        conversation={mockConversation}
+        onSelectConversation={onSelectConversation}
+        handleDeleteConversation={handleDeleteConversation}
+      />
+    );
+
+    // Click on the delete button
+    fireEvent.click(screen.getByText('Delete'));
+
+    // Check if handleDeleteConversation is called with the correct conversation ID
+    expect(handleDeleteConversation).toHaveBeenCalledWith('1');
+  });
+
+  test('does not call onSelectConversation when delete button is clicked', () => {
+    render(
+      <ConversationPreview
+        conversation={mockConversation}
+        onSelectConversation={onSelectConversation}
+        handleDeleteConversation={handleDeleteConversation}
+      />
+    );
+
+    // Click on the delete button
+    fireEvent.click(screen.getByText('Delete'));
+
+    // Ensure onSelectConversation is not called
+    expect(onSelectConversation).not.toHaveBeenCalled();
   });
 });
