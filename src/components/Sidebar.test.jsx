@@ -18,7 +18,23 @@ describe('Sidebar', () => {
     require('react-router-dom').useNavigate.mockReturnValue(mockedNavigate);
   });
 
-  test('renders navigation links correctly', () => {
+  test('renders login and register links when not authenticated', () => {
+    render(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.getByText('Register')).toBeInTheDocument();
+    expect(screen.queryByText('Chats')).not.toBeInTheDocument();
+    expect(screen.queryByText('Profile')).not.toBeInTheDocument();
+    expect(screen.queryByText('Logout')).not.toBeInTheDocument();
+  });
+
+  test('renders chats, profile, and logout links when authenticated', () => {
+    localStorage.setItem('token', 'dummyToken');
+
     render(
       <MemoryRouter>
         <Sidebar />
@@ -27,9 +43,14 @@ describe('Sidebar', () => {
 
     expect(screen.getByText('Chats')).toBeInTheDocument();
     expect(screen.getByText('Profile')).toBeInTheDocument();
+    expect(screen.getByText('Logout')).toBeInTheDocument();
+    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(screen.queryByText('Register')).not.toBeInTheDocument();
   });
 
   test('navigates to /chats when Chats link is clicked', () => {
+    localStorage.setItem('token', 'dummyToken');
+
     render(
       <MemoryRouter initialEntries={['/']}>
         <Sidebar />
@@ -44,6 +65,8 @@ describe('Sidebar', () => {
   });
 
   test('navigates to /profile when Profile link is clicked', () => {
+    localStorage.setItem('token', 'dummyToken');
+
     render(
       <MemoryRouter initialEntries={['/']}>
         <Sidebar />

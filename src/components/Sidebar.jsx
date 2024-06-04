@@ -9,21 +9,36 @@ const Sidebar = () => {
     navigate('/login');
   };
 
+  const token = localStorage.getItem('token');
+
   return (
     <div style={sidebarStyles}>
       <nav>
         <ul style={navListStyles}>
-          <li style={navItemStyles}>
-            <Link to="/chats">Chats</Link>
-          </li>
-          <li style={navItemStyles}>
-            <Link to="/profile">Profile</Link>
-          </li>
-          <li style={navItemStyles}>
-            <button onClick={handleLogout} style={logoutButtonStyles}>
-              Logout
-            </button>
-          </li>
+          {token ? (
+            <>
+              <li style={navItemStyles}>
+                <Link to="/chats">Chats</Link>
+              </li>
+              <li style={navItemStyles}>
+                <Link to="/profile">Profile</Link>
+              </li>
+              <li style={navItemStyles}>
+                <button onClick={handleLogout} style={logoutButtonStyles}>
+                  Logout
+                </button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li style={navItemStyles}>
+                <Link to="/login">Login</Link>
+              </li>
+              <li style={navItemStyles}>
+                <Link to="/register">Register</Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </div>
