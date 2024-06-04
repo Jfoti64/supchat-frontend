@@ -1,4 +1,3 @@
-// src/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../api/api';
@@ -16,8 +15,14 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await loginUser(formData);
-      localStorage.setItem('token', response.data.token); // Save token to local storage
-      navigate('/chats'); // Redirect to chats page or wherever appropriate
+      const { data } = response || {};
+      if (data && data.token) {
+        console.log(`data: ${JSON.stringify(data)}`);
+        localStorage.setItem('token', data.token);
+        navigate('/chats'); // Redirect to chats page or wherever appropriate
+      } else {
+        console.error('Login error: No token found in response', response);
+      }
     } catch (error) {
       console.error('Login error:', error);
     }

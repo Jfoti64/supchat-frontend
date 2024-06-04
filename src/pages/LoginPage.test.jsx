@@ -52,7 +52,5 @@ describe('LoginPage', () => {
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     fireEvent.click(screen.getByText('Login'));
-
-    // You can add more assertions here to check how the component handles the error
   });
 });
