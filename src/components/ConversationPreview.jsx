@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import ProfilePicture from '../components/ProfilePicture';
+import { getProfilePictureUrl } from '../api/api';
 
 const PreviewItem = styled.li`
   cursor: pointer;
@@ -20,12 +22,19 @@ const PreviewItem = styled.li`
   }
 `;
 
+const ParticipantsContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const Participants = styled.div`
   font-weight: bold;
+  margin-left: 10px;
 `;
 
 const LastMessage = styled.div`
   color: #666;
+  margin-top: 5px;
 `;
 
 const DeleteButton = styled.button`
@@ -45,27 +54,43 @@ const ConversationPreview = ({
   handleDeleteConversation,
   currentUserId,
 }) => {
+  console.log('Conversation Data:', conversation);
+
   const nonCurrentUserParticipants = conversation.participants
     .filter((participant) => participant._id !== currentUserId)
-    .map((participant) => participant.username)
-    .join(', ');
+    .map((participant) => {
+      console.log('Participant:', participant);
+      return {
+        username: participant.username,
+        profile_picture: participant.profile_picture || '/path/to/default/profile/picture.jpg',
+      };
+    });
+
+  console.log('Non-Current User Participants:', nonCurrentUserParticipants);
 
   return (
     <PreviewItem onClick={() => onSelectConversation(conversation._id)}>
+      <ParticipantsContainer>
+        {nonCurrentUserParticipants.map((participant) => (
+          <React.Fragment key={participant.username}>
+            <ProfilePicture src={getProfilePictureUrl(participant.profile_picture)} alt="Profile" />
+            <Participants>{participant.username}</Participants>
+          </React.Fragment>
+        ))}
+      </ParticipantsContainer>
       <div>
-        <Participants>{nonCurrentUserParticipants}</Participants>
         <LastMessage>
           {conversation.lastMessage ? conversation.lastMessage.content : ''}
         </LastMessage>
+        <DeleteButton
+          onClick={(e) => {
+            e.stopPropagation();
+            handleDeleteConversation(conversation._id);
+          }}
+        >
+          Delete
+        </DeleteButton>
       </div>
-      <DeleteButton
-        onClick={(e) => {
-          e.stopPropagation();
-          handleDeleteConversation(conversation._id);
-        }}
-      >
-        Delete
-      </DeleteButton>
     </PreviewItem>
   );
 };
