@@ -2,8 +2,6 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import ConversationsList from './ConversationsList';
-import ConversationPreview from './ConversationPreview';
-import Button from './Button';
 
 // Mock ConversationPreview and Button components
 jest.mock(
@@ -20,7 +18,10 @@ jest.mock(
       )
 );
 
-jest.mock('./Button', () => ({ children, ...props }) => <button {...props}>{children}</button>);
+jest.mock('./Button', () => ({ children, ...props }) => {
+  const { $primary, ...restProps } = props;
+  return <button {...restProps}>{children}</button>;
+});
 
 describe('ConversationsList', () => {
   const mockConversations = [

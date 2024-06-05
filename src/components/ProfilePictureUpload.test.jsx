@@ -44,7 +44,9 @@ describe('ProfilePictureUpload', () => {
 
     const file = new File(['dummy content'], 'example.png', { type: 'image/png' });
 
-    fireEvent.change(screen.getByLabelText(/choose file/i), { target: { files: [file] } });
+    fireEvent.change(screen.getByLabelText(/choose file/i), {
+      target: { files: [file] },
+    });
     fireEvent.submit(screen.getByText('Upload'));
 
     await waitFor(() => {
@@ -65,7 +67,9 @@ describe('ProfilePictureUpload', () => {
 
     const file = new File(['dummy content'], 'example.png', { type: 'image/png' });
 
-    fireEvent.change(screen.getByLabelText(/choose file/i), { target: { files: [file] } });
+    fireEvent.change(screen.getByLabelText(/choose file/i), {
+      target: { files: [file] },
+    });
     fireEvent.submit(screen.getByText('Upload'));
 
     await waitFor(() => {
