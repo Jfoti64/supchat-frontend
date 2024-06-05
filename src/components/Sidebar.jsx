@@ -1,5 +1,7 @@
+// src/components/Sidebar.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import ChatsIcon from '../assets/icons/chats.svg';
 import ProfileIcon from '../assets/icons/profile.svg';
 import LogoutIcon from '../assets/icons/logout.svg';
@@ -17,93 +19,97 @@ const Sidebar = () => {
   const token = localStorage.getItem('token');
 
   return (
-    <div style={sidebarStyles}>
+    <SidebarContainer>
       <nav>
-        <ul style={navListStyles}>
+        <NavList>
           {token ? (
             <>
-              <li style={navItemStyles}>
+              <NavItem>
                 <Link to="/chats">
-                  <img src={ChatsIcon} alt="Chats" style={iconStyles} />
-                  <span style={linkTextStyles}>Chats</span>
+                  <Icon src={ChatsIcon} alt="Chats" />
+                  <div>Chats</div>
                 </Link>
-              </li>
-              <li style={navItemStyles}>
+              </NavItem>
+              <NavItem>
                 <Link to="/profile">
-                  <img src={ProfileIcon} alt="Profile" style={iconStyles} />
-                  <span style={linkTextStyles}>Profile</span>
+                  <Icon src={ProfileIcon} alt="Profile" />
+                  <div>Profile</div>
                 </Link>
-              </li>
-              <li style={navItemStyles}>
-                <button onClick={handleLogout} style={logoutButtonStyles}>
-                  <img src={LogoutIcon} alt="Logout" style={iconStyles} />
-                  <span style={linkTextStyles}>Logout</span>
-                </button>
-              </li>
+              </NavItem>
+              <NavItem>
+                <LogoutButton onClick={handleLogout}>
+                  <Icon src={LogoutIcon} alt="Logout" />
+                  <div>Logout</div>
+                </LogoutButton>
+              </NavItem>
             </>
           ) : (
             <>
-              <li style={navItemStyles}>
+              <NavItem>
                 <Link to="/login">
-                  <img src={LoginIcon} alt="Login" style={iconStyles} />
-                  <span style={linkTextStyles}>Login</span>
+                  <Icon src={LoginIcon} alt="Login" />
+                  <div>Log In</div>
                 </Link>
-              </li>
-              <li style={navItemStyles}>
+              </NavItem>
+              <NavItem>
                 <Link to="/register">
-                  <img src={RegisterIcon} alt="Register" style={iconStyles} />
-                  <span style={linkTextStyles}>Register</span>
+                  <Icon src={RegisterIcon} alt="Register" />
+                  <div>Register</div>
                 </Link>
-              </li>
+              </NavItem>
             </>
           )}
-        </ul>
+        </NavList>
       </nav>
-    </div>
+    </SidebarContainer>
   );
 };
 
-// Styles
-const sidebarStyles = {
-  fontSize: '1.5rem',
-  width: '250px',
-  height: '100vh',
-  backgroundColor: '#f8f9fa',
-  padding: '20px',
-  boxSizing: 'border-box',
-};
+// Styled components
+const SidebarContainer = styled.div`
+  width: 150px;
+  height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+  box-sizing: border-box;
+`;
 
-const navListStyles = {
-  listStyleType: 'none',
-  padding: 0,
-  margin: 0,
-};
+const NavList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-const navItemStyles = {
-  marginBottom: '20px',
-  display: 'flex',
-  alignItems: 'center',
-};
+const NavItem = styled.li`
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+`;
 
-const linkTextStyles = {
-  marginLeft: '10px',
-};
+const Icon = styled.img`
+  width: 45px;
+  height: 45px;
+`;
 
-const iconStyles = {
-  width: '30px',
-  height: '30px',
-};
+const LogoutButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  padding: 0;
+  font-size: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 
-const logoutButtonStyles = {
-  backgroundColor: 'transparent',
-  border: 'none',
-  color: '#007bff',
-  cursor: 'pointer',
-  padding: 0,
-  fontSize: 'inherit',
-  textDecoration: 'underline',
-  display: 'flex',
-  alignItems: 'center',
-};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
 
 export default Sidebar;

@@ -9,6 +9,15 @@ const GlobalStyles = createGlobalStyle`
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
   }
+
+  a {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default GlobalStyles;
