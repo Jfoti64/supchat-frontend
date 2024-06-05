@@ -1,37 +1,55 @@
 import React from 'react';
+import styled from 'styled-components';
+import { getProfilePictureUrl } from '../api/api';
+import ProfilePicture from '../components/ProfilePicture';
 
-const Conversation = ({
-  handleMessageSubmit,
-  messagesInConversation,
-  messageToSend,
-  setMessageToSend,
-  statusMessage,
-}) => {
+const ConversationContainer = styled.div`
+  padding: 20px;
+`;
+
+const MessagesList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+const MessageItem = styled.li`
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+
+const MessageText = styled.div`
+  margin-left: 10px;
+`;
+
+const StatusMessage = styled.p`
+  color: red;
+  font-weight: bold;
+`;
+
+const Conversation = ({ messagesInConversation, statusMessage }) => {
   return (
-    <div>
+    <ConversationContainer>
       <h2>Conversation</h2>
-      <ul>
+      <MessagesList>
         {messagesInConversation.length > 0 ? (
           messagesInConversation.map((message) => (
-            <li key={message._id}>
-              {message.senderId.username} {message.content}
-            </li>
+            <MessageItem key={message._id}>
+              <ProfilePicture
+                src={getProfilePictureUrl(message.senderId.profile_picture)}
+                alt="Profile"
+              />
+              <MessageText>
+                {message.senderId.username}: {message.content}
+              </MessageText>
+            </MessageItem>
           ))
         ) : (
-          <li>No messages found</li>
+          <MessageItem>No messages found</MessageItem>
         )}
-      </ul>
-      <form onSubmit={handleMessageSubmit}>
-        <input
-          type="text"
-          value={messageToSend}
-          onChange={(e) => setMessageToSend(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button type="submit">Send</button>
-      </form>
-      {statusMessage && <p>{statusMessage}</p>}
-    </div>
+      </MessagesList>
+      {statusMessage && <StatusMessage>{statusMessage}</StatusMessage>}
+    </ConversationContainer>
   );
 };
 
