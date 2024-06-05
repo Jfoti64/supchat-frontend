@@ -1,6 +1,44 @@
 import React from 'react';
+import styled from 'styled-components';
 import ConversationPreview from './ConversationPreview';
 import Button from './Button';
+
+// Styled components
+const Container = styled.div`
+  padding: 20px;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  height: 100%;
+`;
+
+const Header = styled.h2`
+  margin-bottom: 20px;
+  color: #333;
+`;
+
+const ConversationsListStyled = styled.ul`
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const NoConversations = styled.li`
+  color: #999;
+  text-align: center;
+  padding: 20px;
+`;
+
+const LoadingMessage = styled.div`
+  text-align: center;
+  color: #666;
+  padding: 20px;
+`;
+
+const NewChatButton = styled(Button)`
+  margin-bottom: 20px;
+  width: 100%;
+`;
 
 const ConversationsList = ({
   onSelectConversation,
@@ -10,16 +48,16 @@ const ConversationsList = ({
   handleDeleteConversation,
 }) => {
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingMessage>Loading...</LoadingMessage>;
   }
 
   return (
-    <div>
-      <h2>Your Conversations</h2>
-      <Button $primary onClick={handleNewChatClick}>
+    <Container>
+      <Header>Your Conversations</Header>
+      <NewChatButton $primary onClick={handleNewChatClick}>
         New Chat
-      </Button>
-      <ul style={{ listStyleType: 'none', padding: 0 }}>
+      </NewChatButton>
+      <ConversationsListStyled>
         {Array.isArray(conversations) && conversations.length > 0 ? (
           conversations.map((conversation) => (
             <ConversationPreview
@@ -30,10 +68,10 @@ const ConversationsList = ({
             />
           ))
         ) : (
-          <li>No conversations found</li>
+          <NoConversations>No conversations found</NoConversations>
         )}
-      </ul>
-    </div>
+      </ConversationsListStyled>
+    </Container>
   );
 };
 
