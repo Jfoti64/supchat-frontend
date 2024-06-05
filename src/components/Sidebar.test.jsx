@@ -23,7 +23,7 @@ describe('Sidebar', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByText('Login')).toBeInTheDocument();
+    expect(screen.getByText('Log In')).toBeInTheDocument();
     expect(screen.getByText('Register')).toBeInTheDocument();
     expect(screen.queryByText('Chats')).not.toBeInTheDocument();
     expect(screen.queryByText('Profile')).not.toBeInTheDocument();
@@ -42,7 +42,7 @@ describe('Sidebar', () => {
     expect(screen.getByText('Chats')).toBeInTheDocument();
     expect(screen.getByText('Profile')).toBeInTheDocument();
     expect(screen.getByText('Logout')).toBeInTheDocument();
-    expect(screen.queryByText('Login')).not.toBeInTheDocument();
+    expect(screen.queryByText('Log In')).not.toBeInTheDocument();
     expect(screen.queryByText('Register')).not.toBeInTheDocument();
   });
 

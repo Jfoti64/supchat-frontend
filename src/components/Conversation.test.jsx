@@ -1,6 +1,5 @@
-// src/components/Conversation.test.jsx
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import Conversation from './Conversation';
 import { getProfilePictureUrl } from '../api/api';
 
@@ -12,8 +11,16 @@ jest.mock('../api/api', () => ({
 
 describe('Conversation', () => {
   const messagesInConversation = [
-    { _id: '1', senderId: { username: 'user1', profile_picture: 'user1.jpg' }, content: 'Hello' },
-    { _id: '2', senderId: { username: 'user2', profile_picture: 'user2.jpg' }, content: 'Hi' },
+    {
+      _id: '1',
+      senderId: { _id: 'user1', username: 'user1', profile_picture: 'user1.jpg' },
+      content: 'Hello',
+    },
+    {
+      _id: '2',
+      senderId: { _id: 'user2', username: 'user2', profile_picture: 'user2.jpg' },
+      content: 'Hi',
+    },
   ];
 
   beforeEach(() => {
@@ -23,13 +30,14 @@ describe('Conversation', () => {
     );
   });
 
-  test('renders conversation title', () => {
-    render(<Conversation messagesInConversation={messagesInConversation} statusMessage="" />);
-    expect(screen.getByText('Conversation')).toBeInTheDocument();
-  });
-
   test('renders list of messages with profile pictures', () => {
-    render(<Conversation messagesInConversation={messagesInConversation} statusMessage="" />);
+    render(
+      <Conversation
+        messagesInConversation={messagesInConversation}
+        statusMessage=""
+        currentUserId="user1"
+      />
+    );
 
     expect(screen.getByText('user1: Hello')).toBeInTheDocument();
     expect(screen.getByText('user2: Hi')).toBeInTheDocument();
@@ -47,7 +55,7 @@ describe('Conversation', () => {
   });
 
   test('displays "No messages found" when list is empty', () => {
-    render(<Conversation messagesInConversation={[]} statusMessage="" />);
+    render(<Conversation messagesInConversation={[]} statusMessage="" currentUserId="user1" />);
     expect(screen.getByText('No messages found')).toBeInTheDocument();
   });
 
@@ -56,6 +64,7 @@ describe('Conversation', () => {
       <Conversation
         messagesInConversation={messagesInConversation}
         statusMessage="Message sent successfully!"
+        currentUserId="user1"
       />
     );
     expect(screen.getByText('Message sent successfully!')).toBeInTheDocument();

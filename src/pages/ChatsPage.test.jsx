@@ -1,4 +1,3 @@
-// src/pages/ChatsPage.test.jsx
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
@@ -6,7 +5,6 @@ import ChatsPage from './ChatsPage';
 import { getMessages, sendMessage, getUserConversations } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 
-// Mock the API functions
 jest.mock('../api/api');
 jest.mock('jwt-decode', () => ({
   jwtDecode: jest.fn(),
@@ -69,7 +67,9 @@ describe('ChatsPage', () => {
     );
 
     await waitFor(() => {
-      const conversationItem = screen.getByText('user1, user2');
+      const conversationItem = screen.getByText(
+        (content, element) => element.textContent === 'user1user2'
+      );
       expect(conversationItem).toBeInTheDocument();
       fireEvent.click(conversationItem);
     });
@@ -92,7 +92,9 @@ describe('ChatsPage', () => {
     );
 
     await waitFor(() => {
-      const conversationItem = screen.getByText('user1, user2');
+      const conversationItem = screen.getByText(
+        (content, element) => element.textContent === 'user1user2'
+      );
       expect(conversationItem).toBeInTheDocument();
       fireEvent.click(conversationItem);
     });

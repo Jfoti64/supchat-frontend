@@ -25,12 +25,12 @@ const MessageItem = styled.li`
   ${({ $isSent }) =>
     $isSent
       ? css`
-          justify-items: flex-end;
+          justify-content: flex-end;
           text-align: right;
           margin-left: auto;
         `
       : css`
-          justify-items: flex-start;
+          justify-content: flex-start;
           text-align: left;
           margin-right: auto;
         `}

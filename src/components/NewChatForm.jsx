@@ -5,7 +5,7 @@ import { getProfilePictureUrl } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 import { getUsers } from '../api/api';
 
-const Overlay = styled.div`
+const Overlay = styled.div.attrs(() => ({ role: 'dialog' }))`
   position: fixed;
   top: 0;
   left: 0;
@@ -107,7 +107,7 @@ const NewChatForm = ({ displayNewChatForm, handleCreateNewChat, handleClose }) =
   };
 
   return (
-    <Overlay onClick={handleOverlayClick}>
+    <Overlay onClick={handleOverlayClick} data-testid="overlay">
       <FormContainer>
         <SearchInput
           type="text"
