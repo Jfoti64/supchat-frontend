@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import LoginPage from './LoginPage';
 import { loginUser } from '../api/api';
@@ -8,6 +8,10 @@ import { loginUser } from '../api/api';
 jest.mock('../api/api');
 
 describe('LoginPage', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders the login form', () => {
     render(
       <MemoryRouter>
@@ -22,6 +26,10 @@ describe('LoginPage', () => {
   });
 
   it('submits the form correctly', async () => {
+    loginUser.mockResolvedValue({
+      data: { token: 'mockToken' },
+    });
+
     render(
       <MemoryRouter>
         <LoginPage />
@@ -33,13 +41,36 @@ describe('LoginPage', () => {
 
     fireEvent.click(screen.getByText('Login'));
 
-    expect(loginUser).toHaveBeenCalledWith({
-      username: 'johndoe',
-      password: 'password123',
+    await waitFor(() => {
+      expect(loginUser).toHaveBeenCalledWith({
+        username: 'johndoe',
+        password: 'password123',
+      });
     });
   });
 
-  it('handles login errors', async () => {
+  it('handles missing token error', async () => {
+    loginUser.mockResolvedValue({
+      data: {},
+    });
+
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
+
+    fireEvent.change(screen.getByPlaceholderText('Username'), { target: { value: 'johndoe' } });
+    fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
+
+    fireEvent.click(screen.getByText('Login'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Login error: No token found in response')).toBeInTheDocument();
+    });
+  });
+
+  it('handles network errors', async () => {
     loginUser.mockRejectedValueOnce(new Error('Network Error'));
 
     render(
@@ -52,5 +83,9 @@ describe('LoginPage', () => {
     fireEvent.change(screen.getByPlaceholderText('Password'), { target: { value: 'password123' } });
 
     fireEvent.click(screen.getByText('Login'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Login error: Network Error')).toBeInTheDocument();
+    });
   });
 });
