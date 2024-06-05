@@ -228,11 +228,9 @@ const ChatsPage = () => {
           <>
             <MessagesContainer>
               <Conversation
-                handleMessageSubmit={handleMessageSubmit}
                 messagesInConversation={messagesInConversation}
-                messageToSend={messageToSend}
-                setMessageToSend={setMessageToSend}
                 statusMessage={statusMessage}
+                currentUserId={userId}
               />
             </MessagesContainer>
             <InputContainer onSubmit={handleMessageSubmit}>
