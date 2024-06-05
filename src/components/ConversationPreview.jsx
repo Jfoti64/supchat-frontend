@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import ProfilePicture from '../components/ProfilePicture';
 import { getProfilePictureUrl } from '../api/api';
+import { v4 as uuidv4 } from 'uuid';
 
 const PreviewItem = styled.li`
   cursor: pointer;
@@ -55,25 +56,20 @@ const ConversationPreview = ({
   handleDeleteConversation,
   currentUserId,
 }) => {
-  console.log('Conversation Data:', conversation);
-
   const nonCurrentUserParticipants = conversation.participants
     .filter((participant) => participant._id !== currentUserId)
     .map((participant) => {
-      console.log('Participant:', participant);
       return {
         username: participant.username,
-        profile_picture: participant.profile_picture || '/path/to/default/profile/picture.jpg',
+        profile_picture: participant.profile_picture,
       };
     });
-
-  console.log('Non-Current User Participants:', nonCurrentUserParticipants);
 
   return (
     <PreviewItem onClick={() => onSelectConversation(conversation._id)}>
       <ParticipantsContainer>
         {nonCurrentUserParticipants.map((participant) => (
-          <React.Fragment key={participant.username}>
+          <React.Fragment key={uuidv4()}>
             <ProfilePicture src={getProfilePictureUrl(participant.profile_picture)} alt="Profile" />
             <Participants>{participant.username}</Participants>
           </React.Fragment>

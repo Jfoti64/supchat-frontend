@@ -50,7 +50,7 @@ const ConversationsList = ({
   loading,
   handleNewChatClick,
   handleDeleteConversation,
-  currentUserId, // Add currentUserId prop
+  currentUserId,
 }) => {
   if (loading) {
     return <LoadingMessage>Loading...</LoadingMessage>;
@@ -66,11 +66,11 @@ const ConversationsList = ({
         {Array.isArray(conversations) && conversations.length > 0 ? (
           conversations.map((conversation) => (
             <ConversationPreview
-              key={conversation._id}
+              key={conversation._id} // Use tempKey if _id is not available
               conversation={conversation}
               onSelectConversation={onSelectConversation}
               handleDeleteConversation={handleDeleteConversation}
-              currentUserId={currentUserId} // Pass currentUserId to ConversationPreview
+              currentUserId={currentUserId}
             />
           ))
         ) : (
