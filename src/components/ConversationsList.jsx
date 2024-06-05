@@ -46,6 +46,7 @@ const ConversationsList = ({
   loading,
   handleNewChatClick,
   handleDeleteConversation,
+  currentUserId, // Add currentUserId prop
 }) => {
   if (loading) {
     return <LoadingMessage>Loading...</LoadingMessage>;
@@ -65,6 +66,7 @@ const ConversationsList = ({
               conversation={conversation}
               onSelectConversation={onSelectConversation}
               handleDeleteConversation={handleDeleteConversation}
+              currentUserId={currentUserId} // Pass currentUserId to ConversationPreview
             />
           ))
         ) : (

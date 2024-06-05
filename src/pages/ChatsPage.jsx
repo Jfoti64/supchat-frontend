@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Corrected import
 import {
   getMessages,
   sendMessage,
@@ -217,6 +217,7 @@ const ChatsPage = () => {
           loading={loadingConversations}
           handleNewChatClick={handleNewChatClick}
           handleDeleteConversation={handleDeleteConversation}
+          currentUserId={userId} // Pass currentUserId to ConversationsList
         />
         <NewChatForm
           displayNewChatForm={displayNewChatForm}

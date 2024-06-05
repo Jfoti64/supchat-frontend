@@ -39,13 +39,21 @@ const DeleteButton = styled.button`
   }
 `;
 
-const ConversationPreview = ({ conversation, onSelectConversation, handleDeleteConversation }) => {
+const ConversationPreview = ({
+  conversation,
+  onSelectConversation,
+  handleDeleteConversation,
+  currentUserId,
+}) => {
+  const nonCurrentUserParticipants = conversation.participants
+    .filter((participant) => participant._id !== currentUserId)
+    .map((participant) => participant.username)
+    .join(', ');
+
   return (
     <PreviewItem onClick={() => onSelectConversation(conversation._id)}>
       <div>
-        <Participants>
-          {conversation.participants.map((participant) => participant.username).join(', ')}
-        </Participants>
+        <Participants>{nonCurrentUserParticipants}</Participants>
         <LastMessage>
           {conversation.lastMessage ? conversation.lastMessage.content : ''}
         </LastMessage>
