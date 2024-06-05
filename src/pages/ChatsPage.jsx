@@ -1,4 +1,3 @@
-// ChatsPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -13,6 +12,60 @@ import {
 import ConversationsList from '../components/ConversationsList';
 import Conversation from '../components/Conversation';
 import NewChatForm from '../components/NewChatForm';
+import styled from 'styled-components';
+
+const ChatsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+`;
+
+const ConversationsSection = styled.div`
+  width: 30%;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+`;
+
+const MessagesSection = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+
+const MessagesContainer = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+`;
+
+const InputContainer = styled.form`
+  display: flex;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+`;
+
+const Input = styled.input`
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+`;
+
+const SendButton = styled.button`
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
 
 const ChatsPage = () => {
   const [messageToSend, setMessageToSend] = useState('');
@@ -25,7 +78,6 @@ const ChatsPage = () => {
   const token = localStorage.getItem('token');
   const navigate = useNavigate();
 
-  // Decode the token to get the user ID and check expiration
   const decodedToken = token ? jwtDecode(token) : null;
   const userId = decodedToken ? decodedToken.userId : null;
   const isTokenExpired = decodedToken ? decodedToken.exp * 1000 < Date.now() : true;
@@ -106,7 +158,6 @@ const ChatsPage = () => {
         console.log('Message sent:', response.data);
         setStatusMessage('Message sent successfully!');
         setMessageToSend('');
-        // Refetch messages to update the conversation
         const messages = await getMessages(selectedConversationId, token);
         setMessagesInConversation(messages.data);
       }
@@ -147,7 +198,6 @@ const ChatsPage = () => {
   const handleDeleteConversation = async (conversationId) => {
     try {
       await deleteConversation(conversationId, token);
-      // Update the conversations list after deletion
       setConversations(conversations.filter((convo) => convo._id !== conversationId));
       setSelectedConversationId(null);
       setMessagesInConversation([]);
@@ -159,30 +209,47 @@ const ChatsPage = () => {
   };
 
   return (
-    <div>
-      <ConversationsList
-        onSelectConversation={setSelectedConversationId}
-        conversations={conversations}
-        loading={loadingConversations}
-        handleNewChatClick={handleNewChatClick}
-        handleDeleteConversation={handleDeleteConversation}
-      />
-      <NewChatForm
-        displayNewChatForm={displayNewChatForm}
-        handleCreateNewChat={handleCreateNewChat}
-      />
-      {selectedConversationId ? (
-        <Conversation
-          handleMessageSubmit={handleMessageSubmit}
-          messagesInConversation={messagesInConversation}
-          messageToSend={messageToSend}
-          setMessageToSend={setMessageToSend}
-          statusMessage={statusMessage}
+    <ChatsContainer>
+      <ConversationsSection>
+        <ConversationsList
+          onSelectConversation={setSelectedConversationId}
+          conversations={conversations}
+          loading={loadingConversations}
+          handleNewChatClick={handleNewChatClick}
+          handleDeleteConversation={handleDeleteConversation}
         />
-      ) : (
-        <p>Please select a conversation to view messages</p>
-      )}
-    </div>
+        <NewChatForm
+          displayNewChatForm={displayNewChatForm}
+          handleCreateNewChat={handleCreateNewChat}
+        />
+      </ConversationsSection>
+      <MessagesSection>
+        {selectedConversationId ? (
+          <>
+            <MessagesContainer>
+              <Conversation
+                handleMessageSubmit={handleMessageSubmit}
+                messagesInConversation={messagesInConversation}
+                messageToSend={messageToSend}
+                setMessageToSend={setMessageToSend}
+                statusMessage={statusMessage}
+              />
+            </MessagesContainer>
+            <InputContainer onSubmit={handleMessageSubmit}>
+              <Input
+                type="text"
+                value={messageToSend}
+                onChange={(e) => setMessageToSend(e.target.value)}
+                placeholder="Type a message"
+              />
+              <SendButton type="submit">Send</SendButton>
+            </InputContainer>
+          </>
+        ) : (
+          <p>Please select a conversation to view messages</p>
+        )}
+      </MessagesSection>
+    </ChatsContainer>
   );
 };
 
