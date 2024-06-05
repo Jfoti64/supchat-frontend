@@ -41,7 +41,8 @@ const ProfilePictureUpload = ({ userId }) => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <input type="file" onChange={onChange} />
+        <label htmlFor="profile-picture">Choose file</label>
+        <input id="profile-picture" type="file" onChange={onChange} />
       </div>
       <div>
         <button type="submit">Upload</button>
