@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-const NewChatForm = ({ displayNewChatForm, onCreateNewChat }) => {
+const NewChatForm = ({ displayNewChatForm, handleCreateNewChat }) => {
   const [username, setUsername] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onCreateNewChat(username);
+    handleCreateNewChat(username);
     setUsername('');
   };
 

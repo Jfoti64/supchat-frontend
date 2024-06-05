@@ -4,28 +4,28 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import NewChatForm from './NewChatForm';
 
 describe('NewChatForm', () => {
-  const onCreateNewChat = jest.fn();
+  const handleCreateNewChat = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
   test('renders the form when displayNewChatForm is true', () => {
-    render(<NewChatForm displayNewChatForm={true} onCreateNewChat={onCreateNewChat} />);
+    render(<NewChatForm displayNewChatForm={true} handleCreateNewChat={handleCreateNewChat} />);
 
     expect(screen.getByLabelText('Enter Username:')).toBeInTheDocument();
     expect(screen.getByText('Create Chat')).toBeInTheDocument();
   });
 
   test('does not render the form when displayNewChatForm is false', () => {
-    render(<NewChatForm displayNewChatForm={false} onCreateNewChat={onCreateNewChat} />);
+    render(<NewChatForm displayNewChatForm={false} handleCreateNewChat={handleCreateNewChat} />);
 
     expect(screen.queryByLabelText('Enter Username:')).not.toBeInTheDocument();
     expect(screen.queryByText('Create Chat')).not.toBeInTheDocument();
   });
 
-  test('calls onCreateNewChat with the correct username on form submit', () => {
-    render(<NewChatForm displayNewChatForm={true} onCreateNewChat={onCreateNewChat} />);
+  test('calls handleCreateNewChat with the correct username on form submit', () => {
+    render(<NewChatForm displayNewChatForm={true} handleCreateNewChat={handleCreateNewChat} />);
 
     const input = screen.getByLabelText('Enter Username:');
     const submitButton = screen.getByText('Create Chat');
@@ -33,11 +33,11 @@ describe('NewChatForm', () => {
     fireEvent.change(input, { target: { value: 'testuser' } });
     fireEvent.click(submitButton);
 
-    expect(onCreateNewChat).toHaveBeenCalledWith('testuser');
+    expect(handleCreateNewChat).toHaveBeenCalledWith('testuser');
   });
 
   test('clears the input after form submit', () => {
-    render(<NewChatForm displayNewChatForm={true} onCreateNewChat={onCreateNewChat} />);
+    render(<NewChatForm displayNewChatForm={true} handleCreateNewChat={handleCreateNewChat} />);
 
     const input = screen.getByLabelText('Enter Username:');
     const submitButton = screen.getByText('Create Chat');
@@ -49,7 +49,7 @@ describe('NewChatForm', () => {
   });
 
   test('updates the input value when user types', () => {
-    render(<NewChatForm displayNewChatForm={true} onCreateNewChat={onCreateNewChat} />);
+    render(<NewChatForm displayNewChatForm={true} handleCreateNewChat={handleCreateNewChat} />);
 
     const input = screen.getByLabelText('Enter Username:');
 
