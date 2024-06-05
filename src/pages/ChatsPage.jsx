@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Corrected import
+import { jwtDecode } from 'jwt-decode';
 import {
   getMessages,
   sendMessage,
@@ -181,6 +181,17 @@ const ChatsPage = () => {
       const userResponse = await getUserByUsername(receiverUsername, token);
       const participantId = userResponse.data._id;
 
+      // Check if a conversation already exists with this user
+      const existingConversation = conversations.find((conversation) =>
+        conversation.participants.some((participant) => participant._id === participantId)
+      );
+
+      if (existingConversation) {
+        setSelectedConversationId(existingConversation._id);
+        setDisplayNewChatForm(false);
+        return;
+      }
+
       const conversationData = {
         userId: userId,
         participantId: participantId,
@@ -217,7 +228,7 @@ const ChatsPage = () => {
           loading={loadingConversations}
           handleNewChatClick={handleNewChatClick}
           handleDeleteConversation={handleDeleteConversation}
-          currentUserId={userId} // Pass currentUserId to ConversationsList
+          currentUserId={userId}
         />
         <NewChatForm
           displayNewChatForm={displayNewChatForm}

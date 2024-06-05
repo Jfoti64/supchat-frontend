@@ -1,43 +1,87 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { jwtDecode } from 'jwt-decode';
+import { getUsers } from '../api/api';
+
+const SearchInput = styled.input`
+  padding: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+`;
+
+const UserList = styled.ul`
+  list-style-type: none;
+  padding: 0;
+`;
+
+const UserItem = styled.li`
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`;
 
 const NewChatForm = ({ displayNewChatForm, handleCreateNewChat }) => {
-  const [username, setUsername] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const token = localStorage.getItem('token'); // Retrieve the token from localStorage
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleCreateNewChat(username);
-    setUsername('');
-  };
+  const decodedToken = token ? jwtDecode(token) : null;
+  const currentUserId = decodedToken ? decodedToken.userId : null;
 
-  if (!displayNewChatForm) return null;
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getUsers(token); // Pass the token
+        const allUsers = response.data;
+        // Filter out the current user
+        const otherUsers = allUsers.filter((user) => user._id !== currentUserId);
+        setUsers(otherUsers);
+        setFilteredUsers(otherUsers);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, [token, currentUserId]);
+
+  useEffect(() => {
+    setFilteredUsers(
+      users.filter((user) => user.username.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  }, [searchQuery, users]);
+
+  if (!displayNewChatForm) {
+    return null;
+  }
 
   return (
-    <div style={newChatFormStyles}>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Enter Username:
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Create Chat</button>
-      </form>
+    <div>
+      <SearchInput
+        type="text"
+        placeholder="Search users..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      <UserList>
+        {filteredUsers.map((user) => (
+          <UserItem key={user._id} onClick={() => handleCreateNewChat(user.username)}>
+            {user.username}
+          </UserItem>
+        ))}
+      </UserList>
     </div>
   );
-};
-
-const newChatFormStyles = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  backgroundColor: '#fff',
-  padding: '20px',
-  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-  borderRadius: '5px',
 };
 
 export default NewChatForm;

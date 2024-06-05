@@ -54,5 +54,10 @@ export const uploadProfilePicture = (userId, formData, token) => {
 export const getProfilePictureUrl = (filename) => {
   return `${import.meta.env.VITE_API_BASE_URL}/uploads/profile_pictures/${filename}`;
 };
+export const getUsers = (token) => {
+  return api.get('/users', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
 
 export default api;
