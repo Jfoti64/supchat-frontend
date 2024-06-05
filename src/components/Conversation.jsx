@@ -5,6 +5,7 @@ import ProfilePicture from '../components/ProfilePicture';
 
 const ConversationContainer = styled.div`
   padding: 20px;
+  max-width: 800px;
 `;
 
 const MessagesList = styled.ul`

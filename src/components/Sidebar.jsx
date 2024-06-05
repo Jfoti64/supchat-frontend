@@ -65,10 +65,10 @@ const Sidebar = () => {
 
 // Styles
 const sidebarStyles = {
+  fontSize: '1.5rem',
   width: '250px',
   height: '100vh',
   backgroundColor: '#f8f9fa',
-  borderRight: '1px solid #ddd',
   padding: '20px',
   boxSizing: 'border-box',
 };
@@ -90,8 +90,8 @@ const linkTextStyles = {
 };
 
 const iconStyles = {
-  width: '24px',
-  height: '24px',
+  width: '30px',
+  height: '30px',
 };
 
 const logoutButtonStyles = {

@@ -14,16 +14,30 @@ import Conversation from '../components/Conversation';
 import NewChatForm from '../components/NewChatForm';
 import styled from 'styled-components';
 
+const PageContainer = styled.div`
+  display: flex;
+  place-content: center;
+  height: 100vh;
+`;
+
 const ChatsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100vh;
+  height: 100%;
+  width: 100%;
+  max-width: 1200px; /* Ensures a maximum width */
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 `;
 
 const ConversationsSection = styled.div`
   width: 30%;
+  min-width: 250px; /* Ensures a minimum width */
   border-right: 1px solid #ddd;
   overflow-y: auto;
+  max-width: 350px;
 `;
 
 const MessagesSection = styled.div`
@@ -224,47 +238,49 @@ const ChatsPage = () => {
   };
 
   return (
-    <ChatsContainer>
-      <ConversationsSection>
-        <ConversationsList
-          onSelectConversation={setSelectedConversationId}
-          conversations={conversations}
-          loading={loadingConversations}
-          handleNewChatClick={handleNewChatClick}
-          handleDeleteConversation={handleDeleteConversation}
-          currentUserId={userId}
-        />
-        <NewChatForm
-          displayNewChatForm={displayNewChatForm}
-          handleCreateNewChat={handleCreateNewChat}
-          handleClose={handleClose}
-        />
-      </ConversationsSection>
-      <MessagesSection>
-        {selectedConversationId ? (
-          <>
-            <MessagesContainer>
-              <Conversation
-                messagesInConversation={messagesInConversation}
-                statusMessage={statusMessage}
-                currentUserId={userId}
-              />
-            </MessagesContainer>
-            <InputContainer onSubmit={handleMessageSubmit}>
-              <Input
-                type="text"
-                value={messageToSend}
-                onChange={(e) => setMessageToSend(e.target.value)}
-                placeholder="Type a message"
-              />
-              <SendButton type="submit">Send</SendButton>
-            </InputContainer>
-          </>
-        ) : (
-          <p>Please select a conversation to view messages</p>
-        )}
-      </MessagesSection>
-    </ChatsContainer>
+    <PageContainer>
+      <ChatsContainer>
+        <ConversationsSection>
+          <ConversationsList
+            onSelectConversation={setSelectedConversationId}
+            conversations={conversations}
+            loading={loadingConversations}
+            handleNewChatClick={handleNewChatClick}
+            handleDeleteConversation={handleDeleteConversation}
+            currentUserId={userId}
+          />
+          <NewChatForm
+            displayNewChatForm={displayNewChatForm}
+            handleCreateNewChat={handleCreateNewChat}
+            handleClose={handleClose}
+          />
+        </ConversationsSection>
+        <MessagesSection>
+          {selectedConversationId ? (
+            <>
+              <MessagesContainer>
+                <Conversation
+                  messagesInConversation={messagesInConversation}
+                  statusMessage={statusMessage}
+                  currentUserId={userId}
+                />
+              </MessagesContainer>
+              <InputContainer onSubmit={handleMessageSubmit}>
+                <Input
+                  type="text"
+                  value={messageToSend}
+                  onChange={(e) => setMessageToSend(e.target.value)}
+                  placeholder="Type a message"
+                />
+                <SendButton type="submit">Send</SendButton>
+              </InputContainer>
+            </>
+          ) : (
+            <p>Please select a conversation to view messages</p>
+          )}
+        </MessagesSection>
+      </ChatsContainer>
+    </PageContainer>
   );
 };
 
