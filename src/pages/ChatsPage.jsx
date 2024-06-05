@@ -216,6 +216,10 @@ const ChatsPage = () => {
       const response = await createConversation(conversationData, token);
       setConversations([...conversations, response.data]);
       setSelectedConversationId(response.data._id);
+
+      // Refetch conversations to ensure new conversation data is fully populated
+      const refetchConversations = await getUserConversations(token);
+      setConversations(refetchConversations.data);
       setDisplayNewChatForm(false);
     } catch (error) {
       console.error('Error creating new chat:', error);
