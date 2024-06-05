@@ -35,6 +35,7 @@ const Participants = styled.div`
 const LastMessage = styled.div`
   color: #666;
   margin-top: 5px;
+  text-align: center;
 `;
 
 const DeleteButton = styled.button`
