@@ -5,13 +5,17 @@ import ConversationPreview from './ConversationPreview';
 
 const mockConversation = {
   _id: '1',
-  participants: [{ username: 'user1' }, { username: 'user2' }],
+  participants: [
+    { _id: '1', username: 'user1' },
+    { _id: '2', username: 'user2' },
+  ],
   lastMessage: { content: 'Last message content' },
 };
 
 describe('ConversationPreview', () => {
   const onSelectConversation = jest.fn();
   const handleDeleteConversation = jest.fn();
+  const currentUserId = '1'; // Mock current user ID
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,11 +27,12 @@ describe('ConversationPreview', () => {
         conversation={mockConversation}
         onSelectConversation={onSelectConversation}
         handleDeleteConversation={handleDeleteConversation}
+        currentUserId={currentUserId}
       />
     );
 
-    // Check if participants are displayed correctly
-    expect(screen.getByText('user1, user2')).toBeInTheDocument();
+    // Check if non-current user participants are displayed correctly
+    expect(screen.getByText('user2')).toBeInTheDocument();
 
     // Check if last message is displayed correctly
     expect(screen.getByText('Last message content')).toBeInTheDocument();
@@ -39,11 +44,12 @@ describe('ConversationPreview', () => {
         conversation={mockConversation}
         onSelectConversation={onSelectConversation}
         handleDeleteConversation={handleDeleteConversation}
+        currentUserId={currentUserId}
       />
     );
 
     // Click on the conversation preview
-    fireEvent.click(screen.getByText('user1, user2'));
+    fireEvent.click(screen.getByText('user2'));
 
     // Check if onSelectConversation is called with the correct conversation ID
     expect(onSelectConversation).toHaveBeenCalledWith('1');
@@ -55,6 +61,7 @@ describe('ConversationPreview', () => {
         conversation={mockConversation}
         onSelectConversation={onSelectConversation}
         handleDeleteConversation={handleDeleteConversation}
+        currentUserId={currentUserId}
       />
     );
 
@@ -71,6 +78,7 @@ describe('ConversationPreview', () => {
         conversation={mockConversation}
         onSelectConversation={onSelectConversation}
         handleDeleteConversation={handleDeleteConversation}
+        currentUserId={currentUserId}
       />
     );
 
