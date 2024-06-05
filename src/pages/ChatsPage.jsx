@@ -206,6 +206,10 @@ const ChatsPage = () => {
     }
   };
 
+  const handleClose = () => {
+    setDisplayNewChatForm(false);
+  };
+
   const handleDeleteConversation = async (conversationId) => {
     try {
       await deleteConversation(conversationId, token);
@@ -233,6 +237,7 @@ const ChatsPage = () => {
         <NewChatForm
           displayNewChatForm={displayNewChatForm}
           handleCreateNewChat={handleCreateNewChat}
+          handleClose={handleClose}
         />
       </ConversationsSection>
       <MessagesSection>

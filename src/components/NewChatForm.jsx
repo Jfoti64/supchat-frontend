@@ -1,12 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import ProfilePicture from '../components/ProfilePicture';
+import { getProfilePictureUrl } from '../api/api';
 import { jwtDecode } from 'jwt-decode';
 import { getUsers } from '../api/api';
 
+const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const FormContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
 const SearchInput = styled.input`
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   width: 100%;
+  max-width: 400px;
   border: 1px solid #ddd;
   border-radius: 4px;
 `;
@@ -14,9 +41,13 @@ const SearchInput = styled.input`
 const UserList = styled.ul`
   list-style-type: none;
   padding: 0;
+  width: 100%;
+  max-width: 400px;
 `;
 
 const UserItem = styled.li`
+  display: flex;
+  align-items: center;
   padding: 10px;
   margin: 5px 0;
   background-color: #fff;
@@ -29,7 +60,11 @@ const UserItem = styled.li`
   }
 `;
 
-const NewChatForm = ({ displayNewChatForm, handleCreateNewChat }) => {
+const Username = styled.span`
+  margin-left: 10px;
+`;
+
+const NewChatForm = ({ displayNewChatForm, handleCreateNewChat, handleClose }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -65,22 +100,31 @@ const NewChatForm = ({ displayNewChatForm, handleCreateNewChat }) => {
     return null;
   }
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
+  };
+
   return (
-    <div>
-      <SearchInput
-        type="text"
-        placeholder="Search users..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <UserList>
-        {filteredUsers.map((user) => (
-          <UserItem key={user._id} onClick={() => handleCreateNewChat(user.username)}>
-            {user.username}
-          </UserItem>
-        ))}
-      </UserList>
-    </div>
+    <Overlay onClick={handleOverlayClick}>
+      <FormContainer>
+        <SearchInput
+          type="text"
+          placeholder="Search users..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <UserList>
+          {filteredUsers.map((user) => (
+            <UserItem key={user._id} onClick={() => handleCreateNewChat(user.username)}>
+              <ProfilePicture src={getProfilePictureUrl(user.profile_picture)} alt="Profile" />
+              <Username>{user.username}</Username>
+            </UserItem>
+          ))}
+        </UserList>
+      </FormContainer>
+    </Overlay>
   );
 };
 
