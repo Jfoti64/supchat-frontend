@@ -6,11 +6,16 @@ import ProfilePicture from '../components/ProfilePicture';
 const ConversationContainer = styled.div`
   padding: 20px;
   max-width: 800px;
+  height: 100%;
 `;
 
 const MessagesList = styled.ul`
   list-style: none;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 95%;
 `;
 
 const MessageItem = styled.li`
@@ -56,7 +61,6 @@ const StatusMessage = styled.p`
 const Conversation = ({ messagesInConversation, statusMessage, currentUserId }) => {
   return (
     <ConversationContainer>
-      <h2>Conversation</h2>
       <MessagesList>
         {messagesInConversation.length > 0 ? (
           messagesInConversation.map((message) => {

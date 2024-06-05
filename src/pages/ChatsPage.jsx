@@ -16,15 +16,17 @@ import styled from 'styled-components';
 
 const PageContainer = styled.div`
   display: flex;
-  place-content: center;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  background-color: #f8f9fa;
 `;
 
 const ChatsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 100%;
-  width: 100%;
+  height: 95%;
+  width: 95%;
   max-width: 1200px; /* Ensures a maximum width */
   background-color: #fff;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
