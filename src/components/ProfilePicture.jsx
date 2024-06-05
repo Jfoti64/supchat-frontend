@@ -3,8 +3,8 @@ import React from 'react';
 import styled from 'styled-components';
 
 const RoundImage = styled.img`
-  width: ${(props) => props.size || '75px'};
-  height: ${(props) => props.size || '75px'};
+  width: ${(props) => props.size || '45px'};
+  height: ${(props) => props.size || '45px'};
   border-radius: 50%;
   object-fit: cover;
   border: ${(props) => props.border || '2px solid #ddd'};
