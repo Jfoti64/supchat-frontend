@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { getProfilePictureUrl } from '../api/api';
 import ProfilePicture from '../components/ProfilePicture';
@@ -58,7 +58,22 @@ const StatusMessage = styled.p`
   font-weight: bold;
 `;
 
-const Conversation = ({ messagesInConversation, statusMessage, currentUserId }) => {
+const Conversation = ({
+  messagesInConversation,
+  statusMessage,
+  clearStatusMessage,
+  currentUserId,
+}) => {
+  useEffect(() => {
+    if (statusMessage) {
+      const timer = setTimeout(() => {
+        clearStatusMessage();
+      }, 3000); // Status message will disappear after 3 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [statusMessage, clearStatusMessage]);
+
   return (
     <ConversationContainer>
       <MessagesList>

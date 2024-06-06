@@ -66,7 +66,7 @@ const ConversationsList = ({
         {Array.isArray(conversations) && conversations.length > 0 ? (
           conversations.map((conversation) => (
             <ConversationPreview
-              key={conversation._id} // Use tempKey if _id is not available
+              key={conversation._id}
               conversation={conversation}
               onSelectConversation={onSelectConversation}
               handleDeleteConversation={handleDeleteConversation}

@@ -160,13 +160,15 @@ const ChatsPage = () => {
         const selectedConversation = conversations.find(
           (conversation) => conversation._id === selectedConversationId
         );
-        const receiverId = selectedConversation.participants.find(
-          (participant) => participant !== userId
+        const receiver = selectedConversation.participants.find(
+          (participant) => participant._id !== userId
         );
+
+        console.log('Selected Receiver:', receiver);
 
         const messageData = {
           senderId: userId,
-          receiverId: receiverId,
+          receiverId: receiver._id,
           content: trimmedMessage,
         };
 
@@ -243,6 +245,10 @@ const ChatsPage = () => {
     }
   };
 
+  const clearStatusMessage = () => {
+    setStatusMessage('');
+  };
+
   return (
     <PageContainer>
       <ChatsContainer>
@@ -268,6 +274,7 @@ const ChatsPage = () => {
                 <Conversation
                   messagesInConversation={messagesInConversation}
                   statusMessage={statusMessage}
+                  clearStatusMessage={clearStatusMessage}
                   currentUserId={userId}
                 />
               </MessagesContainer>
