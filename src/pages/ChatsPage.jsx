@@ -20,6 +20,7 @@ const PageContainer = styled.div`
   align-items: center;
   height: 100vh;
   background-color: #f8f9fa;
+  padding: 0px;
 `;
 
 const ChatsContainer = styled.div`
@@ -51,7 +52,7 @@ const MessagesSection = styled.div`
 const MessagesContainer = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding: 20px;
+  padding: 3px;
   background-color: #f9f9f9;
 `;
 
@@ -81,6 +82,16 @@ const SendButton = styled.button`
   &:hover {
     background-color: #0056b3;
   }
+`;
+
+const NoConversationMessage = styled.p`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  color: #666;
+  margin: 0;
 `;
 
 const ChatsPage = () => {
@@ -289,7 +300,9 @@ const ChatsPage = () => {
               </InputContainer>
             </>
           ) : (
-            <p>Please select a conversation to view messages</p>
+            <NoConversationMessage>
+              Please select a conversation to view messages
+            </NoConversationMessage>
           )}
         </MessagesSection>
       </ChatsContainer>

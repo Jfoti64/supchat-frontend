@@ -67,10 +67,12 @@ const Sidebar = () => {
 
 // Styled components
 const SidebarContainer = styled.div`
-  width: 150px;
+  width: 80px;
   height: 100vh;
   background-color: #f8f9fa;
   padding: 20px;
+  padding-right: 0px;
+  padding-top: 40px;
   box-sizing: border-box;
 `;
 

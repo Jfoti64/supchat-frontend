@@ -1,4 +1,3 @@
-// ProfilePage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
@@ -6,6 +5,67 @@ import { getUser, updateUser, getProfilePictureUrl } from '../api/api';
 import Button from '../components/Button';
 import ProfilePictureUpload from '../components/ProfilePictureUpload';
 import ProfilePicture from '../components/ProfilePicture';
+import styled from 'styled-components';
+
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+  height: 100vh;
+`;
+
+const ProfileForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
+const Textarea = styled.textarea`
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  resize: vertical;
+  min-height: 100px;
+`;
+
+const Title = styled.h3`
+  margin-top: 20px;
+  text-align: center;
+`;
+
+const LoadingMessage = styled.div`
+  font-size: 18px;
+  color: #666;
+`;
+
+const ErrorMessage = styled.div`
+  font-size: 18px;
+  color: red;
+`;
+
+const ProfilePictureContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 const ProfilePage = () => {
   const [formData, setFormData] = useState({
@@ -68,41 +128,41 @@ const ProfilePage = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingMessage>Loading...</LoadingMessage>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <ErrorMessage>{error}</ErrorMessage>;
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
+    <ProfileContainer>
+      <ProfileForm onSubmit={handleSubmit}>
+        <Input
           name="first_name"
           value={formData.first_name}
           onChange={handleChange}
           placeholder="First Name"
         />
-        <input
+        <Input
           name="family_name"
           value={formData.family_name}
           onChange={handleChange}
           placeholder="Family Name"
         />
-        <textarea name="bio" value={formData.bio} onChange={handleChange} placeholder="Bio" />
+        <Textarea name="bio" value={formData.bio} onChange={handleChange} placeholder="Bio" />
         <Button $primary type="submit">
           Update Profile
         </Button>
-      </form>
+      </ProfileForm>
       <ProfilePictureUpload userId={userId} />
       {formData.profile_picture && (
-        <div>
-          <h3>Profile Picture</h3>
-          <ProfilePicture src={getProfilePictureUrl(formData.profile_picture)} alt="Profile" />
-        </div>
+        <ProfilePictureContainer>
+          <Title>Profile Picture</Title>
+          <ProfilePicture src={getProfilePictureUrl(formData.profile_picture)} size={'125px'} alt="Profile" />
+        </ProfilePictureContainer>
       )}
-    </div>
+    </ProfileContainer>
   );
 };
 
