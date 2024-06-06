@@ -1,7 +1,3 @@
-Sure! Here's a simple README for the front-end of your project:
-
----
-
 # SupChat Frontend
 
 SupChat is a messaging application that allows users to send messages to each other and customize their user profiles. This repository contains the front-end code for the SupChat application.
@@ -18,7 +14,7 @@ SupChat is a messaging application that allows users to send messages to each ot
 - React Router
 - Styled-components
 - Axios
-- JWT-decode
+- JWT
 - Netlify (for deployment)
 
 ## Getting Started
@@ -101,15 +97,3 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ## License
 
 This project is licensed under the MIT License.
-
-## Contact
-
-If you have any questions or need further assistance, please contact:
-
-- Name: Your Name
-- Email: your.email@example.com
-- GitHub: [yourusername](https://github.com/yourusername)
-
----
-
-Feel free to customize this README further to suit your project's specifics.
