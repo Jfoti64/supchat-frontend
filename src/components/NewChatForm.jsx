@@ -27,13 +27,15 @@ const FormContainer = styled.div`
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: 50vh; /* Ensure the form doesn't exceed 90% of the viewport height */
+  overflow-y: auto; /* Add scroll if content exceeds the height */
+  width: 230px;
 `;
 
 const SearchInput = styled.input`
   padding: 10px;
   margin-bottom: 20px;
   width: 100%;
-  max-width: 400px;
   border: 1px solid #ddd;
   border-radius: 4px;
 `;
@@ -42,7 +44,6 @@ const UserList = styled.ul`
   list-style-type: none;
   padding: 0;
   width: 100%;
-  max-width: 400px;
 `;
 
 const UserItem = styled.li`
@@ -62,6 +63,10 @@ const UserItem = styled.li`
 
 const Username = styled.span`
   margin-left: 10px;
+  white-space: nowrap; // Prevent the text from wrapping to the next line
+  overflow: hidden; // Hide any text that overflows the container
+  text-overflow: ellipsis; // Add ellipsis (...) when the text overflows
+  max-width: 100%; // Ensure the max width is 100% of the parent container
 `;
 
 const NewChatForm = ({ displayNewChatForm, handleCreateNewChat, handleClose }) => {
