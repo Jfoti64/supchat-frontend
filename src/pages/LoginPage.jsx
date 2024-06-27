@@ -30,6 +30,22 @@ const LoginPage = () => {
     }
   };
 
+  const handleDemoLogin = async () => {
+    const demoCredentials = { username: 'demoUser', password: 'demoPass' };
+    try {
+      const response = await loginUser(demoCredentials);
+      if (response && response.data && response.data.token) {
+        const { token } = response.data;
+        localStorage.setItem('token', token);
+        navigate('/chats');
+      } else {
+        setError('Login error: No token found in response');
+      }
+    } catch (error) {
+      setError('Login error: ' + error.message);
+    }
+  };
+
   return (
     <FormContainer>
       <Form onSubmit={handleSubmit}>
@@ -48,6 +64,9 @@ const LoginPage = () => {
         />
         <Button $primary type="submit">
           Login
+        </Button>
+        <Button $secondary type="button" onClick={handleDemoLogin}>
+          Demo User
         </Button>
         {error && <ErrorMessage>{error}</ErrorMessage>}
       </Form>
