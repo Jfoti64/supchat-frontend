@@ -19,7 +19,7 @@ const PageContainer = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f8f9fa;
+  background-color: #f0f2f5;
   padding: 0px;
 `;
 
@@ -28,11 +28,12 @@ const ChatsContainer = styled.div`
   flex-direction: row;
   height: 95%;
   width: 95%;
-  max-width: 1200px; /* Ensures a maximum width */
-  background-color: #fff;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  max-width: 1200px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
   overflow: hidden;
+  margin-top: 20px;
 `;
 
 const ConversationsSection = styled.div`
@@ -78,6 +79,7 @@ const SendButton = styled.button`
   border-radius: 4px;
   cursor: pointer;
   margin-left: 10px;
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: #0056b3;
