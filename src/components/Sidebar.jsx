@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -25,37 +24,37 @@ const Sidebar = () => {
           {token ? (
             <>
               <NavItem>
-                <Link to="/chats">
+                <StyledLink to="/chats">
                   <Icon src={ChatsIcon} alt="Chats" />
-                  <div>Chats</div>
-                </Link>
+                  <NavText>Chats</NavText>
+                </StyledLink>
               </NavItem>
               <NavItem>
-                <Link to="/profile">
+                <StyledLink to="/profile">
                   <Icon src={ProfileIcon} alt="Profile" />
-                  <div>Profile</div>
-                </Link>
+                  <NavText>Profile</NavText>
+                </StyledLink>
               </NavItem>
               <NavItem>
                 <LogoutButton onClick={handleLogout}>
                   <Icon src={LogoutIcon} alt="Logout" />
-                  <div>Logout</div>
+                  <NavText>Logout</NavText>
                 </LogoutButton>
               </NavItem>
             </>
           ) : (
             <>
               <NavItem>
-                <Link to="/login">
+                <StyledLink to="/login">
                   <Icon src={LoginIcon} alt="Login" />
-                  <div>Log In</div>
-                </Link>
+                  <NavText>Log In</NavText>
+                </StyledLink>
               </NavItem>
               <NavItem>
-                <Link to="/register">
+                <StyledLink to="/register">
                   <Icon src={RegisterIcon} alt="Register" />
-                  <div>Register</div>
-                </Link>
+                  <NavText>Register</NavText>
+                </StyledLink>
               </NavItem>
             </>
           )}
@@ -69,11 +68,13 @@ const Sidebar = () => {
 const SidebarContainer = styled.div`
   width: 80px;
   height: 100vh;
-  background-color: #f8f9fa;
-  padding: 20px;
-  padding-right: 0px;
-  padding-top: 40px;
-  box-sizing: border-box;
+  background-color: #ffffff;
+  padding: 20px 0;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const NavList = styled.ul`
@@ -86,10 +87,32 @@ const NavList = styled.ul`
 `;
 
 const NavItem = styled.li`
-  margin-bottom: 20px;
+  width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;
+
+const StyledLink = styled(Link)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none; // Ensure no underline
+  color: inherit;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f1f1f1;
+    text-decoration: none; // Ensure no underline on hover
+  }
 `;
 
 const Icon = styled.img`
@@ -97,20 +120,30 @@ const Icon = styled.img`
   height: 45px;
 `;
 
+const NavText = styled.div`
+  font-size: 12px;
+  color: #333;
+  margin-top: 5px;
+`;
+
 const LogoutButton = styled.button`
   background-color: transparent;
   border: none;
   color: #007bff;
   cursor: pointer;
-  padding: 0;
+  padding: 10px;
   font-size: inherit;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  text-decoration: none; // Ensure no underline
 
   &:hover {
-    text-decoration: underline;
+    background-color: #f1f1f1;
+    text-decoration: none; // Ensure no underline on hover
   }
 `;
 
