@@ -139,11 +139,11 @@ const LogoutButton = styled.button`
   text-align: center;
   border-radius: 8px;
   transition: background-color 0.3s ease;
-  text-decoration: none; // Ensure no underline
+  text-decoration: none;
 
   &:hover {
     background-color: #f1f1f1;
-    text-decoration: none; // Ensure no underline on hover
+    text-decoration: none;
   }
 `;
 

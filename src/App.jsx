@@ -5,33 +5,40 @@ import LoginPage from './pages/LoginPage';
 import ChatsPage from './pages/ChatsPage';
 import ProfilePage from './pages/ProfilePage';
 import Sidebar from './components/Sidebar';
+import styled from 'styled-components';
 
 function App() {
   return (
     <Router>
-      <div style={appContainerStyles}>
+      <AppContainer>
         <Sidebar />
-        <div style={mainContentStyles}>
+        <MainContent>
           <Routes>
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/chats" element={<ChatsPage />} />
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
-        </div>
-      </div>
+        </MainContent>
+      </AppContainer>
     </Router>
   );
 }
 
-const appContainerStyles = {
-  display: 'flex',
-};
+const AppContainer = styled.div`
+  display: flex;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling */
+`;
 
-const mainContentStyles = {
-  flexGrow: 1,
-  padding: '20px',
-  boxSizing: 'border-box',
-};
+const MainContent = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden; /* Prevent scrolling */
+  box-sizing: border-box;
+  padding: 20px; /* Include padding on all sides */
+  background-color: #f0f2f5; /* Set a background color to match the container */
+`;
 
 export default App;
