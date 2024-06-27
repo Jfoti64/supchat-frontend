@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ProfilePicture from '../components/ProfilePicture';
 import { getProfilePictureUrl } from '../api/api';
 import { v4 as uuidv4 } from 'uuid';
+import { FiTrash2 } from 'react-icons/fi'; // Using react-icons for the trash icon
 
 const PreviewItem = styled.li`
   cursor: pointer;
@@ -26,6 +27,7 @@ const PreviewItem = styled.li`
 const ParticipantsContainer = styled.div`
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 `;
 
 const Participants = styled.div`
@@ -33,10 +35,21 @@ const Participants = styled.div`
   margin-left: 10px;
 `;
 
+const LastMessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-left: 10px;
+  overflow: hidden;
+`;
+
 const LastMessage = styled.div`
   color: #666;
   margin-top: 5px;
-  text-align: center;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const DeleteButton = styled.button`
@@ -44,9 +57,16 @@ const DeleteButton = styled.button`
   border: none;
   color: #ff4d4f;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
 
   &:hover {
-    text-decoration: underline;
+    background-color: #ffe6e6;
+    color: #d32f2f; /* Slightly darker red for better visual feedback */
   }
 `;
 
@@ -75,7 +95,7 @@ const ConversationPreview = ({
           </React.Fragment>
         ))}
       </ParticipantsContainer>
-      <div>
+      <LastMessageContainer>
         <LastMessage>
           {conversation.lastMessage ? conversation.lastMessage.content : ''}
         </LastMessage>
@@ -85,9 +105,9 @@ const ConversationPreview = ({
             handleDeleteConversation(conversation._id);
           }}
         >
-          Delete
+          <FiTrash2 size={18} />
         </DeleteButton>
-      </div>
+      </LastMessageContainer>
     </PreviewItem>
   );
 };
