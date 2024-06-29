@@ -41,15 +41,17 @@ const LastMessageContainer = styled.div`
   flex-grow: 1;
   margin-left: 10px;
   overflow: hidden;
+  align-items: center; /* Center items horizontally */
 `;
 
 const LastMessage = styled.div`
   color: #666;
   margin-top: 5px;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 100%; /* Ensure the message takes the full width */
 `;
 
 const DeleteButton = styled.button`
@@ -58,15 +60,17 @@ const DeleteButton = styled.button`
   color: #ff4d4f;
   cursor: pointer;
   display: flex;
-  align-items: center;
   justify-content: center;
-  padding: 5px;
+  align-items: center; /* Center icon within button */
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   transition: background-color 0.2s, color 0.2s;
+  margin-top: 5px; /* Add some spacing from the message */
 
   &:hover {
     background-color: #ffe6e6;
-    color: #d32f2f; /* Slightly darker red for better visual feedback */
+    color: #d32f2f;
   }
 `;
 
