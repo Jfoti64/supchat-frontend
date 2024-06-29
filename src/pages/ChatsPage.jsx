@@ -21,7 +21,7 @@ const PageContainer = styled.div`
   height: 100vh;
   background-color: #f0f2f5;
   padding: 0;
-  overflow: hidden; /* Prevent the entire page from scrolling */
+  overflow: hidden;
 `;
 
 const ChatsContainer = styled.div`
@@ -40,7 +40,7 @@ const ConversationsSection = styled.div`
   width: 30%;
   min-width: 250px; /* Ensures a minimum width */
   border-right: 1px solid #ddd;
-  overflow-y: auto;
+  overflow-y: hidden;
   max-width: 350px;
 `;
 
@@ -53,7 +53,7 @@ const MessagesSection = styled.div`
 
 const MessagesContainer = styled.div`
   flex: 1;
-  overflow-y: auto;
+  overflow-y: hidden;
   padding: 3px;
   background-color: #f9f9f9;
 `;
@@ -178,7 +178,6 @@ const ChatsPage = () => {
           (participant) => participant._id !== userId
         );
 
-        console.log('Selected Receiver:', receiver);
 
         const messageData = {
           senderId: userId,
@@ -187,7 +186,6 @@ const ChatsPage = () => {
         };
 
         const response = await sendMessage(messageData, token);
-        console.log('Message sent:', response.data);
         setStatusMessage('Message sent successfully!');
         setMessageToSend('');
         const messages = await getMessages(selectedConversationId, token);

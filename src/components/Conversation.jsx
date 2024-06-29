@@ -9,8 +9,8 @@ const ConversationContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   position: relative; /* To position status message */
-  overflow: hidden; /* Prevent the container from scrolling */
 `;
 
 const MessagesList = styled.ul`
@@ -18,7 +18,7 @@ const MessagesList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  overflow-y: auto; /* Ensure scrolling */
+  overflow-y: auto; /* Ensure scrolling *
   flex-grow: 1; /* Allow it to grow and fill the container */
 `;
 
@@ -70,6 +70,7 @@ const StatusMessage = styled.p`
   color: white;
   padding: 5px 10px;
   border-radius: 5px;
+  z-index: 10; /* Ensure it appears above other content */
 `;
 
 const Conversation = ({
@@ -115,6 +116,7 @@ const Conversation = ({
         ) : (
           <MessageItem>No messages found</MessageItem>
         )}
+        <div ref={messagesListRef} />
       </MessagesList>
       {statusMessage && <StatusMessage>{statusMessage}</StatusMessage>}
     </ConversationContainer>

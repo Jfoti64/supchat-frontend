@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import ProfilePicture from '../components/ProfilePicture';
 import { getProfilePictureUrl } from '../api/api';
-import { v4 as uuidv4 } from 'uuid';
 import { FiTrash2 } from 'react-icons/fi'; // Using react-icons for the trash icon
 
 const PreviewItem = styled.li`
@@ -28,11 +27,16 @@ const ParticipantsContainer = styled.div`
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  width: 70%; /* Adjust width to fit within the container */
+  overflow: hidden; /* Ensure text overflow is handled */
 `;
 
 const Participants = styled.div`
   font-weight: bold;
   margin-left: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const LastMessageContainer = styled.div`
@@ -84,6 +88,7 @@ const ConversationPreview = ({
     .filter((participant) => participant._id !== currentUserId)
     .map((participant) => {
       return {
+        id: participant._id, // Use the participant's unique ID
         username: participant.username,
         profile_picture: participant.profile_picture,
       };
@@ -93,7 +98,7 @@ const ConversationPreview = ({
     <PreviewItem onClick={() => onSelectConversation(conversation._id)}>
       <ParticipantsContainer>
         {nonCurrentUserParticipants.map((participant) => (
-          <React.Fragment key={uuidv4()}>
+          <React.Fragment key={participant.id}>
             <ProfilePicture src={getProfilePictureUrl(participant.profile_picture)} alt="Profile" />
             <Participants>{participant.username}</Participants>
           </React.Fragment>

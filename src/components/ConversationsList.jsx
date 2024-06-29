@@ -12,6 +12,7 @@ const Container = styled.div`
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   height: 100%;
   width: auto;
+  overflow-y: hidden;
 `;
 
 const Header = styled.h2`
