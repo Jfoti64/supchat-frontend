@@ -20,7 +20,8 @@ const PageContainer = styled.div`
   align-items: center;
   height: 100vh;
   background-color: #f0f2f5;
-  padding: 0px;
+  padding: 0;
+  overflow: hidden; /* Prevent the entire page from scrolling */
 `;
 
 const ChatsContainer = styled.div`
@@ -33,7 +34,6 @@ const ChatsContainer = styled.div`
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   overflow: hidden;
-  margin-top: 20px;
 `;
 
 const ConversationsSection = styled.div`
@@ -48,6 +48,7 @@ const MessagesSection = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden; /* Prevent the entire section from scrolling */
 `;
 
 const MessagesContainer = styled.div`

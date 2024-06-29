@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { getProfilePictureUrl } from '../api/api';
 import ProfilePicture from '../components/ProfilePicture';
@@ -7,6 +7,10 @@ const ConversationContainer = styled.div`
   padding: 20px;
   max-width: 800px;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative; /* To position status message */
+  overflow: hidden; /* Prevent the container from scrolling */
 `;
 
 const MessagesList = styled.ul`
@@ -14,14 +18,13 @@ const MessagesList = styled.ul`
   padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  height: 95%;
-  overflow-y: auto;
+  overflow-y: auto; /* Ensure scrolling */
+  flex-grow: 1; /* Allow it to grow and fill the container */
 `;
 
 const MessageItem = styled.li`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   margin-bottom: 10px;
   ${({ $isSent }) =>
     $isSent
@@ -59,6 +62,14 @@ const MessageText = styled.div`
 
 const StatusMessage = styled.p`
   font-weight: bold;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
 `;
 
 const Conversation = ({
@@ -67,6 +78,14 @@ const Conversation = ({
   clearStatusMessage,
   currentUserId,
 }) => {
+  const messagesListRef = useRef(null);
+
+  useEffect(() => {
+    if (messagesListRef.current) {
+      messagesListRef.current.scrollTop = messagesListRef.current.scrollHeight;
+    }
+  }, [messagesInConversation]);
+
   useEffect(() => {
     if (statusMessage) {
       const timer = setTimeout(() => {
@@ -79,7 +98,7 @@ const Conversation = ({
 
   return (
     <ConversationContainer>
-      <MessagesList>
+      <MessagesList ref={messagesListRef}>
         {messagesInConversation.length > 0 ? (
           messagesInConversation.map((message) => {
             const isSent = message.senderId._id === currentUserId;
