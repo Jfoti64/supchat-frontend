@@ -16,6 +16,7 @@ const MessagesList = styled.ul`
   flex-direction: column;
   justify-content: flex-end;
   height: 95%;
+  overflow-y: auto;
 `;
 
 const MessageItem = styled.li`
@@ -25,22 +26,21 @@ const MessageItem = styled.li`
   ${({ $isSent }) =>
     $isSent
       ? css`
-          justify-content: flex-end;
-          text-align: right;
           margin-left: auto;
         `
       : css`
           justify-content: flex-start;
-          text-align: left;
           margin-right: auto;
         `}
   flex-direction: ${({ $isSent }) => ($isSent ? 'row-reverse' : 'row')};
+  max-width: 100%;
 `;
 
 const MessageText = styled.div`
   margin: 0 10px;
   max-width: 70%;
   word-wrap: break-word;
+  word-break: break-word; /* Ensure words break correctly */
   ${({ $isSent }) =>
     $isSent
       ? css`
@@ -52,6 +52,9 @@ const MessageText = styled.div`
           border-radius: 10px 10px 10px 0;
         `}
   padding: 10px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* Prevent shrinking */
 `;
 
 const StatusMessage = styled.p`
@@ -86,9 +89,7 @@ const Conversation = ({
                   src={getProfilePictureUrl(message.senderId.profile_picture)}
                   alt="Profile"
                 />
-                <MessageText $isSent={isSent}>
-                  {message.senderId.username}: {message.content}
-                </MessageText>
+                <MessageText $isSent={isSent}>{message.content}</MessageText>
               </MessageItem>
             );
           })
