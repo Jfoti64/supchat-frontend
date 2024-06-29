@@ -23,7 +23,6 @@ const Header = styled.h2`
 const ConversationsListStyled = styled.ul`
   list-style-type: none;
   padding: 0;
-  margin: 0;
   flex: 1;
   overflow-y: auto;
 `;
