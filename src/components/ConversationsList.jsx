@@ -13,11 +13,18 @@ const Container = styled.div`
   height: 100%;
   width: auto;
   overflow-y: hidden;
+  flex-shrink: 1; /* Allow shrinking */
 `;
 
 const Header = styled.h2`
   margin-bottom: 20px;
   color: #333;
+  text-align:center;
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
 `;
 
 const ConversationsListStyled = styled.ul`
@@ -25,23 +32,41 @@ const ConversationsListStyled = styled.ul`
   padding: 0;
   flex: 1;
   overflow-y: auto;
+
+  @media (max-width: 768px) {
+    padding: 0 10px;
+  }
 `;
 
 const NoConversations = styled.li`
   color: #999;
   text-align: center;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 14px;
+  }
 `;
 
 const LoadingMessage = styled.div`
   text-align: center;
   color: #666;
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 14px;
+  }
 `;
 
 const NewChatButton = styled(Button)`
   margin-bottom: 20px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 const ConversationsList = ({

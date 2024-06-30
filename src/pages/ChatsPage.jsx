@@ -38,7 +38,6 @@ const ChatsContainer = styled.div`
 
 const ConversationsSection = styled.div`
   width: 30%;
-  min-width: 250px; /* Ensures a minimum width */
   border-right: 1px solid #ddd;
   overflow-y: hidden;
   max-width: 350px;

@@ -29,19 +29,19 @@ const AppContainer = styled.div`
   display: flex;
   height: 100vh;
   overflow: hidden; /* Prevent scrolling */
-
-  @media (max-width: 768px) {
-    flex-direction: column; /* Stack sidebar on top on small screens */
-  }
 `;
 
 const MainContent = styled.div`
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  overflow-y: hidden; /* Prevent scrolling */
   box-sizing: border-box;
   background-color: #f0f2f5;
+  padding-top: 50px; /* Ensure content is pushed down when sidebar is at the top */
+
+  @media (min-width: 769px) {
+    padding-top: 0; /* Remove top padding on larger screens */
+  }
 `;
 
 export default App;

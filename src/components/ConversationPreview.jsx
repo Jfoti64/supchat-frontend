@@ -16,10 +16,17 @@ const PreviewItem = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row;
 
   &:hover {
     background-color: #f1f1f1;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Change to column layout on small screens */
+    padding: 5px;
+    margin: 5px 0;
   }
 `;
 
@@ -29,6 +36,12 @@ const ParticipantsContainer = styled.div`
   flex-shrink: 0;
   width: 70%; /* Adjust width to fit within the container */
   overflow: hidden; /* Ensure text overflow is handled */
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center; /* Center content in column layout */
+    flex-direction: column; /* Change to column layout for small screens */
+  }
 `;
 
 const Participants = styled.div`
@@ -37,6 +50,13 @@ const Participants = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 5px; /* Add margin for spacing in column layout */
+    font-size: 14px;
+    text-align: center;
+  }
 `;
 
 const LastMessageContainer = styled.div`
@@ -46,6 +66,14 @@ const LastMessageContainer = styled.div`
   margin-left: 10px;
   overflow: hidden;
   align-items: center; /* Center items horizontally */
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    margin-top: 5px; /* Add margin for spacing in column layout */
+    font-size: 12px;
+    align-items: center;
+    width: 100%;
+  }
 `;
 
 const LastMessage = styled.div`
@@ -56,6 +84,10 @@ const LastMessage = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%; /* Ensure the message takes the full width */
+
+  @media (max-width: 768px) {
+    margin-top: 2px;
+  }
 `;
 
 const DeleteButton = styled.button`
@@ -75,6 +107,12 @@ const DeleteButton = styled.button`
   &:hover {
     background-color: #ffe6e6;
     color: #d32f2f;
+  }
+
+  @media (max-width: 768px) {
+    width: 30px;
+    height: 30px;
+    margin-top: 5px; /* Adjust spacing in column layout */
   }
 `;
 

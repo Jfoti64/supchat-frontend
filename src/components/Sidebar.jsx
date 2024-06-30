@@ -88,8 +88,12 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: ${(props) => (props.$isSmallScreen ? 'row' : 'column')};
   align-items: center;
-  justify-content: ${(props) => (props.$isSmallScreen ? 'center' : 'flex-start')};
+  
+  justify-content: ${(props) => (props.$isSmallScreen ? 'center' : '')}; ;
   transition: all 0.3s ease;
+  position: ${(props) => (props.$isSmallScreen ? 'fixed' : 'relative')};
+  top: ${(props) => (props.$isSmallScreen ? '0' : 'auto')};
+  z-index: 1000; /* Ensure it appears above other content */
 `;
 
 const NavList = styled.ul`
@@ -101,10 +105,6 @@ const NavList = styled.ul`
   align-items: center;
   width: 100%;
   justify-content: center;
-
-  @media (min-width: 769px) {
-    justify-content: flex-start; /* Align items to the top on large screens */
-  }
 `;
 
 const NavItem = styled.li`
@@ -113,6 +113,7 @@ const NavItem = styled.li`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin: ${(props) => (props.$isSmallScreen ? '0 5px' : '10px 0')}; /* Ensure spacing */
 `;
 
 const StyledLink = styled(Link)`
@@ -121,7 +122,7 @@ const StyledLink = styled(Link)`
   align-items: center;
   text-decoration: none; // Ensure no underline
   color: inherit;
-  padding: 10px;
+  padding: ${(props) => (props.$isSmallScreen ? '5px' : '10px')};
   border-radius: 8px;
   transition: background-color 0.3s ease;
 
@@ -148,7 +149,7 @@ const LogoutButton = styled.button`
   border: none;
   color: #007bff;
   cursor: pointer;
-  padding: 10px;
+  padding: ${(props) => (props.$isSmallScreen ? '5px' : '10px')};
   font-size: inherit;
   display: flex;
   flex-direction: column;
