@@ -27,7 +27,7 @@ function App() {
 
 const AppContainer = styled.div`
   display: flex;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   overflow: hidden; /* Prevent scrolling */
 
   @media (max-width: 768px) {
@@ -41,8 +41,7 @@ const MainContent = styled.div`
   flex-direction: column;
   overflow-y: hidden; /* Prevent scrolling */
   box-sizing: border-box;
-  padding: 20px; /* Include padding on all sides */
-  background-color: #f0f2f5; /* Set a background color to match the container */
+  background-color: #f0f2f5;
 `;
 
 export default App;
