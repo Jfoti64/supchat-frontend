@@ -49,12 +49,13 @@ const Participants = styled.div`
   margin-left: 10px;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* Truncate long text with ellipsis */
+  max-width: 100%; /* Ensure it doesn't exceed container width */
 
   @media (max-width: 768px) {
     margin-left: 0;
     margin-top: 5px; /* Add margin for spacing in column layout */
-    font-size: 14px;
+    font-size: 12px;
     text-align: center;
   }
 `;
@@ -82,7 +83,7 @@ const LastMessage = styled.div`
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* Truncate long text with ellipsis */
   width: 100%; /* Ensure the message takes the full width */
 
   @media (max-width: 768px) {
