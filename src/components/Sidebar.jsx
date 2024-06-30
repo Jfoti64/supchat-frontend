@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import ChatsIcon from '../assets/icons/chats.svg';
 import ProfileIcon from '../assets/icons/profile.svg';
 import LogoutIcon from '../assets/icons/logout.svg';
 import LoginIcon from '../assets/icons/login.svg';
 import RegisterIcon from '../assets/icons/register.svg';
+import MenuIcon from '../assets/icons/menu.svg'; // Add a menu icon for the toggle button
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState(window.innerWidth > 768); // Set initial state based on screen width
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,10 +19,33 @@ const Sidebar = () => {
 
   const token = localStorage.getItem('token');
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setIsOpen(false);
+      } else {
+        setIsOpen(true);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <SidebarContainer>
+    <SidebarContainer $isOpen={isOpen}>
+      <MenuButton onClick={toggleSidebar}>
+        <Icon src={MenuIcon} alt="Menu" />
+      </MenuButton>
       <nav>
-        <NavList>
+        <NavList $isOpen={isOpen}>
           {token ? (
             <>
               <NavItem>
@@ -66,7 +91,7 @@ const Sidebar = () => {
 
 // Styled components
 const SidebarContainer = styled.div`
-  width: 80px;
+  width: ${(props) => (props.$isOpen ? '250px' : '80px')};
   height: 100vh;
   background-color: #ffffff;
   padding: 20px 0;
@@ -74,7 +99,33 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  transition: width 0.3s ease;
+
+  @media (max-width: 768px) {
+    width: ${(props) => (props.$isOpen ? '250px' : '60px')};
+  }
+`;
+
+const MenuButton = styled.button`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  font-size: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f1f1f1;
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
 `;
 
 const NavList = styled.ul`
@@ -84,6 +135,18 @@ const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1;
+
+  @media (max-width: 768px) {
+    ${(props) =>
+      props.$isOpen
+        ? css`
+            display: flex;
+          `
+        : css`
+            display: none;
+          `}
+  }
 `;
 
 const NavItem = styled.li`
