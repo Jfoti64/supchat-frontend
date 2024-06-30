@@ -1,3 +1,4 @@
+// src/components/ConversationPreview.jsx
 import React from 'react';
 import styled from 'styled-components';
 import ProfilePicture from '../components/ProfilePicture';
@@ -148,6 +149,7 @@ const ConversationPreview = ({
           {conversation.lastMessage ? conversation.lastMessage.content : ''}
         </LastMessage>
         <DeleteButton
+          data-testid="delete-button"
           onClick={(e) => {
             e.stopPropagation();
             handleDeleteConversation(conversation._id);

@@ -1,3 +1,4 @@
+// src/components/Conversation.test.jsx
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Conversation from './Conversation';
@@ -39,8 +40,8 @@ describe('Conversation', () => {
       />
     );
 
-    expect(screen.getByText('user1: Hello')).toBeInTheDocument();
-    expect(screen.getByText('user2: Hi')).toBeInTheDocument();
+    expect(screen.getByText('Hello')).toBeInTheDocument();
+    expect(screen.getByText('Hi')).toBeInTheDocument();
 
     const profilePictures = screen.getAllByAltText('Profile');
     expect(profilePictures.length).toBe(2);

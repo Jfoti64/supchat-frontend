@@ -66,7 +66,7 @@ describe('ConversationPreview', () => {
     );
 
     // Click on the delete button
-    fireEvent.click(screen.getByText('Delete'));
+    fireEvent.click(screen.getByTestId('delete-button'));
 
     // Check if handleDeleteConversation is called with the correct conversation ID
     expect(handleDeleteConversation).toHaveBeenCalledWith('1');
@@ -83,7 +83,7 @@ describe('ConversationPreview', () => {
     );
 
     // Click on the delete button
-    fireEvent.click(screen.getByText('Delete'));
+    fireEvent.click(screen.getByTestId('delete-button'));
 
     // Ensure onSelectConversation is not called
     expect(onSelectConversation).not.toHaveBeenCalled();
