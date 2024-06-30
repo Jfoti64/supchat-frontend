@@ -1,4 +1,3 @@
-// ProfilePicture.jsx
 import React from 'react';
 import styled from 'styled-components';
 
@@ -8,6 +7,7 @@ const RoundImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
   border: ${(props) => props.border || '2px solid #ddd'};
+  aspect-ratio: 1; /* Maintain a 1:1 aspect ratio */
 `;
 
 const ProfilePicture = ({ src, alt, size, border }) => {
