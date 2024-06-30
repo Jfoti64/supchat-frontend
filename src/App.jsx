@@ -29,6 +29,10 @@ const AppContainer = styled.div`
   display: flex;
   height: 100vh; /* Full viewport height */
   overflow: hidden; /* Prevent scrolling */
+
+  @media (max-width: 768px) {
+    flex-direction: column; /* Stack sidebar on top on small screens */
+  }
 `;
 
 const MainContent = styled.div`

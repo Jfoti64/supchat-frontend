@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import ChatsIcon from '../assets/icons/chats.svg';
 import ProfileIcon from '../assets/icons/profile.svg';
 import LogoutIcon from '../assets/icons/logout.svg';
 import LoginIcon from '../assets/icons/login.svg';
 import RegisterIcon from '../assets/icons/register.svg';
-import MenuIcon from '../assets/icons/menu.svg'; // Add a menu icon for the toggle button
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(window.innerWidth > 768); // Set initial state based on screen width
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -19,17 +18,9 @@ const Sidebar = () => {
 
   const token = localStorage.getItem('token');
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setIsOpen(false);
-      } else {
-        setIsOpen(true);
-      }
+      setIsSmallScreen(window.innerWidth <= 768);
     };
 
     window.addEventListener('resize', handleResize);
@@ -40,30 +31,27 @@ const Sidebar = () => {
   }, []);
 
   return (
-    <SidebarContainer $isOpen={isOpen}>
-      <MenuButton onClick={toggleSidebar}>
-        <Icon src={MenuIcon} alt="Menu" />
-      </MenuButton>
+    <SidebarContainer $isSmallScreen={isSmallScreen}>
       <nav>
-        <NavList $isOpen={isOpen}>
+        <NavList $isSmallScreen={isSmallScreen}>
           {token ? (
             <>
               <NavItem>
                 <StyledLink to="/chats">
-                  <Icon src={ChatsIcon} alt="Chats" />
-                  <NavText>Chats</NavText>
+                  <Icon src={ChatsIcon} alt="Chats" $isSmallScreen={isSmallScreen} />
+                  <NavText $isSmallScreen={isSmallScreen}>Chats</NavText>
                 </StyledLink>
               </NavItem>
               <NavItem>
                 <StyledLink to="/profile">
-                  <Icon src={ProfileIcon} alt="Profile" />
-                  <NavText>Profile</NavText>
+                  <Icon src={ProfileIcon} alt="Profile" $isSmallScreen={isSmallScreen} />
+                  <NavText $isSmallScreen={isSmallScreen}>Profile</NavText>
                 </StyledLink>
               </NavItem>
               <NavItem>
                 <LogoutButton onClick={handleLogout}>
-                  <Icon src={LogoutIcon} alt="Logout" />
-                  <NavText>Logout</NavText>
+                  <Icon src={LogoutIcon} alt="Logout" $isSmallScreen={isSmallScreen} />
+                  <NavText $isSmallScreen={isSmallScreen}>Logout</NavText>
                 </LogoutButton>
               </NavItem>
             </>
@@ -71,14 +59,14 @@ const Sidebar = () => {
             <>
               <NavItem>
                 <StyledLink to="/login">
-                  <Icon src={LoginIcon} alt="Login" />
-                  <NavText>Log In</NavText>
+                  <Icon src={LoginIcon} alt="Login" $isSmallScreen={isSmallScreen} />
+                  <NavText $isSmallScreen={isSmallScreen}>Log In</NavText>
                 </StyledLink>
               </NavItem>
               <NavItem>
                 <StyledLink to="/register">
-                  <Icon src={RegisterIcon} alt="Register" />
-                  <NavText>Register</NavText>
+                  <Icon src={RegisterIcon} alt="Register" $isSmallScreen={isSmallScreen} />
+                  <NavText $isSmallScreen={isSmallScreen}>Register</NavText>
                 </StyledLink>
               </NavItem>
             </>
@@ -91,41 +79,17 @@ const Sidebar = () => {
 
 // Styled components
 const SidebarContainer = styled.div`
-  width: ${(props) => (props.$isOpen ? '250px' : '80px')};
-  height: 100vh;
+  width: ${(props) => (props.$isSmallScreen ? '100%' : '100px')};
+  height: ${(props) => (props.$isSmallScreen ? '50px' : '100vh')};
   background-color: #ffffff;
-  padding: 20px 0;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  padding: ${(props) => (props.$isSmallScreen ? '10px 0' : '20px 0')};
+  box-shadow: ${(props) =>
+    props.$isSmallScreen ? '0 2px 5px rgba(0, 0, 0, 0.1)' : '2px 0 5px rgba(0, 0, 0, 0.1)'};
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => (props.$isSmallScreen ? 'row' : 'column')};
   align-items: center;
-  transition: width 0.3s ease;
-
-  @media (max-width: 768px) {
-    width: ${(props) => (props.$isOpen ? '250px' : '60px')};
-  }
-`;
-
-const MenuButton = styled.button`
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-  font-size: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #f1f1f1;
-  }
-
-  @media (min-width: 769px) {
-    display: none;
-  }
+  justify-content: ${(props) => (props.$isSmallScreen ? 'center' : 'flex-start')};
+  transition: all 0.3s ease;
 `;
 
 const NavList = styled.ul`
@@ -133,33 +97,22 @@ const NavList = styled.ul`
   padding: 0;
   margin: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => (props.$isSmallScreen ? 'row' : 'column')};
   align-items: center;
-  flex-grow: 1;
+  width: 100%;
+  justify-content: center;
 
-  @media (max-width: 768px) {
-    ${(props) =>
-      props.$isOpen
-        ? css`
-            display: flex;
-          `
-        : css`
-            display: none;
-          `}
+  @media (min-width: 769px) {
+    justify-content: flex-start; /* Align items to the top on large screens */
   }
 `;
 
 const NavItem = styled.li`
-  width: 100%;
+  width: ${(props) => (props.$isSmallScreen ? 'auto' : '100%')};
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-bottom: 20px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 `;
 
 const StyledLink = styled(Link)`
@@ -179,14 +132,15 @@ const StyledLink = styled(Link)`
 `;
 
 const Icon = styled.img`
-  width: 45px;
-  height: 45px;
+  width: ${(props) => (props.$isSmallScreen ? '35px' : '45px')};
+  height: ${(props) => (props.$isSmallScreen ? '35px' : '45px')};
 `;
 
 const NavText = styled.div`
   font-size: 12px;
   color: #333;
   margin-top: 5px;
+  display: ${(props) => (props.$isSmallScreen ? 'none' : 'block')};
 `;
 
 const LogoutButton = styled.button`
@@ -202,11 +156,9 @@ const LogoutButton = styled.button`
   text-align: center;
   border-radius: 8px;
   transition: background-color 0.3s ease;
-  text-decoration: none;
 
   &:hover {
     background-color: #f1f1f1;
-    text-decoration: none;
   }
 `;
 
