@@ -17,6 +17,16 @@ SupChat is a messaging application that allows users to send messages to each ot
 - JWT
 - Netlify (for deployment)
 
+## Demo
+
+Check out the live demo of the application [here](https://jfoti64-supchat.netlify.app/login).
+
+## Screenshots
+
+![Screenshot 1](/src/assets/screenshots/Screenshot%202024-06-30%20at%209.55.52 PM.png)
+![Screenshot 2](/src/assets/screenshots/Screenshot%202024-06-30%20at%2010.01.00 PM.png)
+![Screenshot 3](/src/assets/screenshots/Screenshot%202024-06-30%20at%208.58.30 PM.png)
+
 ## Getting Started
 
 ### Prerequisites
